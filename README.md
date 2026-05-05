@@ -60,3 +60,4 @@ Photographs go in `public/images/` — slot them into pages by replacing
 Connect the repo to AWS Amplify Hosting. The `amplify.yml` file handles the
 build. Set Stripe and `NEXT_PUBLIC_SITE_URL` env vars per branch — sandbox keys
 on preview branches, live keys on `main`.
+

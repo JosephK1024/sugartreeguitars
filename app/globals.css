@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html, body {
+  background-color: #FBF7F3;
+  color: #1B0E07;
+  font-family: var(--font-sans, Inter), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .font-serif {
+  font-family: "Cormorant Garamond", Palatino, Georgia, serif;
+  letter-spacing: -0.01em;
+}
+
+.prose-bark {
+  --tw-prose-body: #1B0E07;
+  --tw-prose-headings: #593219;
+  --tw-prose-links: #593219;
+  --tw-prose-bold: #1B0E07;
+  --tw-prose-quote-borders: #593219;
+}

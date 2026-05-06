@@ -71,6 +71,19 @@ export default function HomePage() {
         </p>
       </section>
 
+      {/* Atmospheric break — wood selection */}
+      <section className="mx-auto max-w-6xl px-6 pb-8">
+        <Photo
+          src="/images/wood-drying.jpeg"
+          alt="Tonewood plates curing on the drying rack."
+          ratio="wide"
+          sizes="(min-width: 1280px) 1152px, 100vw"
+        />
+        <p className="mt-4 text-sm text-ink/60 italic font-serif">
+          Tonewood, curing. The sound begins before the first cut.
+        </p>
+      </section>
+
       {/* Three Pillars */}
       <section className="border-y border-bark-200 bg-bark-50">
         <div className="mx-auto max-w-6xl px-6 py-20 grid md:grid-cols-3 gap-12">
@@ -127,6 +140,35 @@ export default function HomePage() {
               </div>
             </Link>
           ))}
+        </div>
+      </section>
+
+      {/* Quiet feature shot */}
+      <section className="border-t border-bark-200 bg-cream">
+        <div className="mx-auto max-w-6xl px-6 py-24 grid md:grid-cols-2 gap-12 items-center">
+          <Photo
+            src="/images/wall-classical.jpeg"
+            alt="A finished SugarTree guitar at rest on the workshop wall."
+            ratio="portrait"
+            sizes="(min-width: 768px) 50vw, 100vw"
+          />
+          <div>
+            <h2 className="font-serif text-4xl text-bark-600 leading-tight">
+              The voice was always in the tree.
+            </h2>
+            <p className="mt-6 text-lg text-ink/80 leading-relaxed">
+              Our job is simply to find it and set it free. Every SugarTree guitar
+              is the result of three stages of voicing &mdash; tap tuning at wood
+              selection, flex feel after thickness sanding, and tap tuning through
+              brace carving. We stop when the wood says stop.
+            </p>
+            <Link
+              href="/philosophy"
+              className="mt-8 inline-flex items-center text-bark-600 border-b border-bark-600 pb-1 hover:text-bark-700"
+            >
+              How we build →
+            </Link>
+          </div>
         </div>
       </section>
 

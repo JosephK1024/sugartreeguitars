@@ -1,3 +1,5 @@
+import { Photo } from "@/components/Photo";
+
 export const metadata = { title: "Philosophy" };
 
 const sections = [
@@ -31,10 +33,19 @@ export default function PhilosophyPage() {
   return (
     <article className="mx-auto max-w-4xl px-6 py-20">
       <h1 className="font-serif text-5xl text-bark-600 mb-6">Build Philosophy</h1>
-      <p className="text-lg text-ink/75 max-w-prose mb-16">
+      <p className="text-lg text-ink/75 max-w-prose mb-12">
         The principles that guide every SugarTree build. Refined through experiment,
         failure, pivot, and reflection.
       </p>
+
+      <Photo
+        src="/images/philosophy.jpeg"
+        alt="A soundboard with bracing layout marked out before carving."
+        ratio="wide"
+        className="mb-16"
+        priority
+        sizes="(min-width: 1024px) 896px, 100vw"
+      />
 
       <div className="space-y-12">
         {sections.map((s) => (

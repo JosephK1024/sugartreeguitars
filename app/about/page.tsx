@@ -8,8 +8,8 @@ export default function AboutPage() {
       <h1 className="font-serif text-5xl text-bark-600 mb-12">About the Builder</h1>
 
       <Photo
-        src="/images/builder-portrait.jpeg"
-        alt="The builder, in the workshop, holding a guitar."
+        src="/images/about.png"
+        alt="The builder, in the workshop."
         ratio="wide"
         className="mb-12"
         priority

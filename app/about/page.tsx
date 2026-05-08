@@ -98,6 +98,32 @@ export default function AboutPage() {
 
         <hr className="border-bark-200 my-10" />
 
+        <h2 className="font-serif text-3xl text-bark-600 not-italic mb-4">
+          Reference Instruments
+        </h2>
+        <p>
+          The current SugarTree approach didn&rsquo;t emerge in a vacuum. It rests on
+          dreadnoughts already in the world &mdash; instruments that have been played
+          and tested long enough for the design choices to either confirm or
+          embarrass themselves.
+        </p>
+        <ul className="list-disc pl-6 space-y-3 text-ink/85">
+          <li>
+            <strong>Bolivian rosewood &amp; Sitka dreadnought</strong> &mdash; carbon
+            fiber tube neck, forward shifted scalloped X bracing. Five years old,
+            stable under steel-string load, loud and clear. The instrument that
+            confirmed the CF tube approach for production.
+          </li>
+          <li>
+            <strong>Bocote &amp; Sitka dreadnought</strong> &mdash; ebony strip
+            reinforcement, forward shifted scalloped X. Dark, complex, with the
+            authoritative midrange that bocote is known for. The reason we keep
+            building with bocote.
+          </li>
+        </ul>
+
+        <hr className="border-bark-200 my-10" />
+
         <p>
           The greatest addition to my builder&rsquo;s toolkit in recent years has been AI
           assisted design &mdash; not as a replacement for craft judgment but as a research

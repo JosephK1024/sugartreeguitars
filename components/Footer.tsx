@@ -19,8 +19,9 @@ export function Footer() {
         </div>
         <nav className="text-sm flex flex-col gap-2 md:items-end">
           <Link href="/builds" className="hover:text-bark-600">Builds</Link>
-          <Link href="/experimental" className="hover:text-bark-600">Experimental</Link>
+          <Link href="/tonewoods" className="hover:text-bark-600">Tonewoods</Link>
           <Link href="/philosophy" className="hover:text-bark-600">Philosophy</Link>
+          <Link href="/experimental" className="hover:text-bark-600">Experimental</Link>
           <Link href="/giving" className="hover:text-bark-600">Giving</Link>
           <Link href="/about" className="hover:text-bark-600">About</Link>
         </nav>

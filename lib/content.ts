@@ -50,6 +50,11 @@ export type Article = ArticleFrontmatter & { content: string };
 
 export type Build = BuildFrontmatter & { content: string };
 
+function resolveImagePath(p: string | undefined): string | undefined {
+  if (!p) return undefined;
+  return p.startsWith("/") ? p : `/images/${p}`;
+}
+
 const BUILDS_DIR = path.join(process.cwd(), "content", "builds");
 
 export function getAllBuilds(): Build[] {
@@ -62,7 +67,9 @@ export function getAllBuilds(): Build[] {
     const slug = file.replace(/\.(mdx|md)$/, "");
     const raw = fs.readFileSync(path.join(BUILDS_DIR, file), "utf-8");
     const { data, content } = matter(raw);
-    return { slug, content, ...(data as Omit<BuildFrontmatter, "slug">) } as Build;
+    const fm = data as Omit<BuildFrontmatter, "slug">;
+    if (fm.photos) fm.photos = fm.photos.map((p) => resolveImagePath(p)!);
+    return { slug, content, ...fm } as Build;
   });
 
   return builds.sort((a, b) => {
@@ -94,7 +101,9 @@ export function getAllArticles(): Article[] {
     const slug = file.replace(/\.(mdx|md)$/, "");
     const raw = fs.readFileSync(path.join(ARTICLES_DIR, file), "utf-8");
     const { data, content } = matter(raw);
-    return { slug, content, ...(data as Omit<ArticleFrontmatter, "slug">) } as Article;
+    const fm = data as Omit<ArticleFrontmatter, "slug">;
+    if (fm.photo) fm.photo = resolveImagePath(fm.photo);
+    return { slug, content, ...fm } as Article;
   });
 
   return articles.sort((a, b) => (a.date < b.date ? 1 : -1));

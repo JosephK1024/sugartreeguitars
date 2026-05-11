@@ -1,6 +1,6 @@
 import { config, collection, fields } from "@keystatic/core";
 
-const isProd = !!process.env.KEYSTATIC_GITHUB_CLIENT_ID;
+const isProd = !!process.env.NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG;
 
 export default config({
   storage: isProd

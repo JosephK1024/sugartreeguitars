@@ -33,7 +33,20 @@ export type BuildFrontmatter = {
   experimental?: boolean;
   summary?: string;
   hero_caption?: string;
+  photos?: string[];
+  video_url?: string;
 };
+
+export type ArticleFrontmatter = {
+  slug: string;
+  title: string;
+  date: string;
+  photo?: string;
+  photo_caption?: string;
+  summary?: string;
+};
+
+export type Article = ArticleFrontmatter & { content: string };
 
 export type Build = BuildFrontmatter & { content: string };
 
@@ -67,6 +80,38 @@ export function getAllBuilds(): Build[] {
 export function getBuild(slug: string): Build | null {
   const all = getAllBuilds();
   return all.find((b) => b.slug === slug) ?? null;
+}
+
+const ARTICLES_DIR = path.join(process.cwd(), "content", "articles");
+
+export function getAllArticles(): Article[] {
+  if (!fs.existsSync(ARTICLES_DIR)) return [];
+  const files = fs
+    .readdirSync(ARTICLES_DIR)
+    .filter((f) => f.endsWith(".mdx") || f.endsWith(".md"));
+
+  const articles = files.map((file) => {
+    const slug = file.replace(/\.(mdx|md)$/, "");
+    const raw = fs.readFileSync(path.join(ARTICLES_DIR, file), "utf-8");
+    const { data, content } = matter(raw);
+    return { slug, content, ...(data as Omit<ArticleFrontmatter, "slug">) } as Article;
+  });
+
+  return articles.sort((a, b) => (a.date < b.date ? 1 : -1));
+}
+
+export function getArticle(slug: string): Article | null {
+  const all = getAllArticles();
+  return all.find((a) => a.slug === slug) ?? null;
+}
+
+export function formatDate(dateStr: string): string {
+  return new Date(dateStr).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
+  });
 }
 
 export function formatPrice(price?: number, currency = "USD"): string | null {

@@ -5,13 +5,8 @@ import { Photo } from "@/components/Photo";
 import { StatusBadge } from "@/components/StatusBadge";
 import { SpecsTable } from "@/components/SpecsTable";
 import { BuyButton } from "@/components/BuyButton";
+import { VideoEmbed } from "@/components/VideoEmbed";
 import { getAllBuilds, getBuild, formatPrice } from "@/lib/content";
-
-const buildPhotos: Record<string, string> = {
-  "koa-000-12fret": "/images/headstock-detail.jpeg",
-  "bocote-parlor-adirondack": "/images/headstock-back.jpeg",
-  "bocote-parlor-bearclaw": "/images/dread-top.jpeg",
-};
 
 export function generateStaticParams() {
   return getAllBuilds().map((b) => ({ slug: b.slug }));
@@ -33,13 +28,15 @@ export default async function BuildPage({ params }: { params: Promise<{ slug: st
   if (!build) notFound();
 
   const price = formatPrice(build.price, build.currency);
+  const [heroPhoto, ...extraPhotos] = build.photos ?? [];
 
   return (
     <article className="mx-auto max-w-5xl px-6 py-16">
+      {/* Hero: photo + meta */}
       <div className="grid md:grid-cols-2 gap-12 items-start mb-16">
-        {buildPhotos[build.slug] ? (
+        {heroPhoto ? (
           <Photo
-            src={buildPhotos[build.slug]}
+            src={heroPhoto}
             alt={build.hero_caption ?? `${build.title} — ${build.body}, ${build.back_sides}`}
             ratio="square"
             priority
@@ -85,6 +82,7 @@ export default async function BuildPage({ params }: { params: Promise<{ slug: st
         </div>
       </div>
 
+      {/* Specs + build notes */}
       <div className="grid md:grid-cols-[1fr_2fr] gap-12">
         <div>
           <h2 className="font-serif text-2xl text-bark-600 mb-4">Specifications</h2>
@@ -95,6 +93,32 @@ export default async function BuildPage({ params }: { params: Promise<{ slug: st
           <MDXRemote source={build.content} />
         </div>
       </div>
+
+      {/* Additional photos gallery */}
+      {extraPhotos.length > 0 && (
+        <section className="mt-16">
+          <h2 className="font-serif text-2xl text-bark-600 mb-6">Photos</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {extraPhotos.map((src, i) => (
+              <Photo
+                key={src}
+                src={src}
+                alt={`${build.title} — photo ${i + 2}`}
+                ratio="square"
+                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Video */}
+      {build.video_url && (
+        <section className="mt-16">
+          <h2 className="font-serif text-2xl text-bark-600 mb-4">Hear it played</h2>
+          <VideoEmbed url={build.video_url} />
+        </section>
+      )}
     </article>
   );
 }

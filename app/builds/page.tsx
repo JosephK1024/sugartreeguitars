@@ -4,12 +4,6 @@ import { Photo } from "@/components/Photo";
 import { StatusBadge } from "@/components/StatusBadge";
 import { getAllBuilds, formatPrice } from "@/lib/content";
 
-const buildPhotos: Record<string, string> = {
-  "koa-000-12fret": "/images/headstock-detail.jpeg",
-  "bocote-parlor-adirondack": "/images/headstock-back.jpeg",
-  "bocote-parlor-bearclaw": "/images/dread-top.jpeg",
-};
-
 export const metadata = { title: "Builds" };
 
 export default function BuildsPage() {
@@ -26,11 +20,12 @@ export default function BuildsPage() {
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
         {builds.map((b) => {
           const price = formatPrice(b.price, b.currency);
+          const heroPhoto = b.photos?.[0];
           return (
             <Link key={b.slug} href={`/builds/${b.slug}`} className="group block">
-              {buildPhotos[b.slug] ? (
+              {heroPhoto ? (
                 <Photo
-                  src={buildPhotos[b.slug]}
+                  src={heroPhoto}
                   alt={`${b.title} — ${b.body}, ${b.back_sides}`}
                   ratio="square"
                   sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"

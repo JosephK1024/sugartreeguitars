@@ -62,6 +62,11 @@ export default config({
           label: "Experimental build",
           defaultValue: false,
         }),
+        published: fields.checkbox({
+          label: "Published",
+          description: "Uncheck to hide from the Guitars page.",
+          defaultValue: true,
+        }),
         photos: fields.array(
           fields.image({
             label: "Photo",
@@ -119,6 +124,11 @@ export default config({
         photo_caption: fields.text({
           label: "Photo caption",
           validation: { isRequired: false },
+        }),
+        published: fields.checkbox({
+          label: "Published",
+          description: "Uncheck to hide from the Notes page.",
+          defaultValue: true,
         }),
         content: fields.mdx({
           label: "Article body",

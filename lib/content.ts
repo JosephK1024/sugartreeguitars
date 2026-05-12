@@ -35,6 +35,7 @@ export type BuildFrontmatter = {
   hero_caption?: string;
   photos?: string[];
   video_url?: string;
+  published?: boolean;
 };
 
 export type ArticleFrontmatter = {
@@ -44,6 +45,7 @@ export type ArticleFrontmatter = {
   photo?: string;
   photo_caption?: string;
   summary?: string;
+  published?: boolean;
 };
 
 export type Article = ArticleFrontmatter & { content: string };
@@ -72,7 +74,7 @@ export function getAllBuilds(): Build[] {
     return { slug, content, ...fm } as Build;
   });
 
-  return builds.sort((a, b) => {
+  return builds.filter((b) => b.published !== false).sort((a, b) => {
     const order: Record<BuildStatus, number> = {
       "in-progress": 0,
       available: 1,
@@ -106,7 +108,7 @@ export function getAllArticles(): Article[] {
     return { slug, content, ...fm } as Article;
   });
 
-  return articles.sort((a, b) => (a.date < b.date ? 1 : -1));
+  return articles.filter((a) => a.published !== false).sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
 export function getArticle(slug: string): Article | null {

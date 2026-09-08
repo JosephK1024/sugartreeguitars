@@ -4,12 +4,6 @@ import { ImagePlaceholder } from "@/components/ImagePlaceholder";
 import { Photo } from "@/components/Photo";
 import { getAllBuilds } from "@/lib/content";
 
-const buildPhotos: Record<string, string> = {
-  "koa-000-12fret": "/images/headstock-detail.jpeg",
-  "bocote-parlor-adirondack": "/images/headstock-back.jpeg",
-  "bocote-parlor-bearclaw": "/images/dread-top.jpeg",
-};
-
 export default function HomePage() {
   const builds = getAllBuilds().slice(0, 3);
 
@@ -111,35 +105,38 @@ export default function HomePage() {
           </Link>
         </div>
         <div className="grid md:grid-cols-3 gap-8">
-          {builds.map((b) => (
-            <Link
-              key={b.slug}
-              href={`/builds/${b.slug}`}
-              className="group block"
-            >
-              {buildPhotos[b.slug] ? (
-                <Photo
-                  src={buildPhotos[b.slug]}
-                  alt={`${b.title} — ${b.body}, ${b.back_sides}`}
-                  ratio="square"
-                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                />
-              ) : (
-                <ImagePlaceholder ratio="square" label={`${b.body} · ${b.back_sides}`} />
-              )}
-              <div className="mt-4">
-                <div className="text-xs uppercase tracking-widest text-bark-500">
-                  {b.status}
+          {builds.map((b) => {
+            const heroPhoto = b.photos?.[0];
+            return (
+              <Link
+                key={b.slug}
+                href={`/builds/${b.slug}`}
+                className="group block"
+              >
+                {heroPhoto ? (
+                  <Photo
+                    src={heroPhoto}
+                    alt={`${b.title} — ${b.body}, ${b.back_sides}`}
+                    ratio="square"
+                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  />
+                ) : (
+                  <ImagePlaceholder ratio="square" label={`${b.body} · ${b.back_sides}`} />
+                )}
+                <div className="mt-4">
+                  <div className="text-xs uppercase tracking-widest text-bark-500">
+                    {b.status}
+                  </div>
+                  <div className="font-serif text-2xl text-bark-600 group-hover:underline">
+                    {b.title}
+                  </div>
+                  <div className="text-sm text-ink/70 mt-1">
+                    {b.top} top · {b.back_sides} back &amp; sides
+                  </div>
                 </div>
-                <div className="font-serif text-2xl text-bark-600 group-hover:underline">
-                  {b.title}
-                </div>
-                <div className="text-sm text-ink/70 mt-1">
-                  {b.top} top · {b.back_sides} back &amp; sides
-                </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            );
+          })}
         </div>
       </section>
 

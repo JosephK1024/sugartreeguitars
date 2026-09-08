@@ -62,7 +62,7 @@ export default function ExperimentalPage() {
           <Link key={b.slug} href={`/builds/${b.slug}`} className="group block">
             <ImagePlaceholder ratio="square" label={b.title} />
             <div className="mt-4 space-y-2">
-              <StatusBadge status="experimental" />
+              <StatusBadge status={b.status} />
               <h2 className="font-serif text-2xl text-bark-600 group-hover:underline">
                 {b.title}
               </h2>

@@ -7,7 +7,8 @@ Tailwind, MDX content, and Stripe Checkout. Deployed via AWS Amplify Hosting.
 
 - **Next.js 15** (App Router) + React 19
 - **Tailwind CSS** with brand palette built around bark `#593219`
-- **MDX in `/content`** for builds and stories — git is the CMS
+- **MDX in `/content`** for builds and stories — git is the store of record
+- **Keystatic admin** at `/keystatic` — edits that MDX and commits to `main`
 - **Stripe Checkout** for full-payment guitar reservations (no cart, no inventory system)
 - **AWS Amplify Hosting** via `amplify.yml`
 
@@ -36,6 +37,11 @@ stripe listen --forward-to localhost:3000/api/stripe/webhook
 
 ## Content
 
+Two ways in: the **Keystatic admin at `/keystatic`** (GitHub auth in
+production, no login locally), or editing the MDX directly. Both commit to
+`main`. Day-to-day content instructions live in
+[`content/HOWTO.md`](content/HOWTO.md).
+
 Build pages live in `content/builds/*.mdx`. Frontmatter drives the spec table
 and status badge:
 
@@ -45,6 +51,11 @@ and status badge:
 
 To list a guitar for sale, set `status: available` and add `price`. The build
 page will show a Stripe Checkout button.
+
+Entry photos live in a folder named after the entry — `public/images/<slug>/` —
+which is the layout Keystatic reads and writes. In frontmatter, a bare filename
+resolves inside that folder; a leading-slash path is used as-is, for shared
+site photos.
 
 ## Brand assets
 

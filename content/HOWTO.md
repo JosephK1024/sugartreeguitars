@@ -1,22 +1,157 @@
-# Managing Content (via GitHub web)
+# Managing Content
 
-The site is content-driven. Guitars are MDX files in `content/builds/`.
-Articles (Notes) are MDX files in `content/articles/`.
-Edit on github.com from any device — no tools to install. Push the commit and
-AWS Amplify rebuilds automatically (~2 minutes).
+There are two ways to change what's on the site. Both end up doing the same
+thing — committing a file to `main` on GitHub, which makes AWS Amplify rebuild
+the site (~2 minutes).
+
+1. **The admin (Keystatic)** — a web form at `/keystatic`. Easier, harder to
+   get wrong, and it handles photos for you. Use this unless you have a reason
+   not to.
+2. **Editing the files by hand** on github.com. Everything lives as MDX in
+   `content/builds/` and `content/articles/`. Useful for bulk edits, or for the
+   one field the admin doesn't expose.
 
 ---
 
-## Guitars (Builds)
+## The admin
+
+Open **`sugartreeguitars.com/keystatic`** and sign in with GitHub. Anything you
+save is committed to `main` as you, and the site rebuilds itself.
+
+Running the site locally (`npm run dev`) instead? Then `localhost:3000/keystatic`
+needs no login and edits the files on your own machine.
+
+The sidebar has two collections:
+
+- **Guitars** → the build pages at `/builds`
+- **Notes** → the articles at `/articles`
+
+Click a collection to see everything in it, click an entry to edit it, or use
+**New** to add one. The editor puts the long-form text on the left and all the
+fields on the right. **Save** (top right) commits. The trash icon beside it
+deletes the entry.
+
+---
+
+## Guitars
 
 ### Add a new guitar
 
-1. Open the repo on github.com.
-2. Navigate to `content/builds/`.
-3. Click **Add file → Create new file**.
-4. Name it `slug-of-the-guitar.mdx` (lowercase, hyphens, no spaces). The slug
-   becomes the URL: `sugartreeguitars.com/builds/slug-of-the-guitar`.
-5. Paste this template and edit:
+**Guitars → New.** Fill in what you know and Save. The only field the admin
+actually insists on is the **Slug**; everything else can be left blank and
+filled in later.
+
+That's forgiving by design — a blank spec is simply left out of the spec table
+rather than showing an empty row. So a guitar you've only just started can
+carry a title, a status, and nothing else. For a page that reads as finished,
+though, you want at least: Body shape, Top wood, Back & sides, Neck, Fretboard,
+Bridge, Year, and a Summary.
+
+The **Title** generates the URL slug (`Hawaiian Koa 000 — 12 Fret` becomes
+`/builds/koa-000-12fret`). You can edit it yourself in the Slug field just
+below. Changing the slug later changes the URL and breaks any existing links to
+that page, so pick it once and leave it.
+
+### Add photos
+
+Scroll to **Photos** and click **Add**, then choose a file. Add as many as you
+like and drag them into order — **the first photo is the hero** on both the
+guitars list and the guitar's own page; the rest become a gallery below the
+specs.
+
+The admin files each photo under `public/images/<guitar-slug>/` automatically.
+That per-guitar folder is the layout the site and the admin both expect, so if
+you ever add photos by hand, match it — see [By hand](#by-hand) below.
+
+**Hero image caption** is the alt text for the hero photo — worth filling in.
+
+### Add a video
+
+Paste a YouTube or Vimeo link into **Video URL**. A "Hear it played" section
+with an embedded player appears at the bottom of the guitar's page.
+
+### Put a guitar up for sale
+
+Set **Status** to `Available` and make sure **Price (USD)** is filled in. The
+page then shows the price and a Stripe checkout button. Both are needed — an
+available guitar with no price shows no button.
+
+### Mark one sold, or given
+
+Set **Status** to `Sold` or `Given`. The page stays up as a portfolio record
+with the matching badge, and the checkout button disappears.
+
+### Hide a guitar without deleting it
+
+Uncheck **Published**. It vanishes from the site — list pages, its own URL, the
+homepage — but the file and all its content stay put. Check it again to bring
+it back. This is the safe way to park a draft.
+
+### Delete one for good
+
+Open the entry and click the trash icon in the top-right toolbar. The page and
+its file are gone. Prefer unchecking Published unless you really mean it.
+
+### Status values
+
+| Status | Shows on | Checkout button |
+|---|---|---|
+| `In Progress` | `/builds` | no |
+| `Available` | `/builds` | yes — needs a price |
+| `Sold` | `/builds` | no |
+| `Experimental` | `/builds`, `/experimental` | no |
+| `Given` | `/builds` | no |
+
+Guitars are ordered in-progress → available → experimental → sold → given, and
+the homepage shows the **first three in that order** — so what lands on the
+homepage depends on what you have, not on any single status.
+
+There is also a separate **Experimental build** checkbox. It puts a guitar on
+`/experimental` *while keeping whatever status it has*, so a guitar can be both
+`Available` and experimental. Setting Status to `Experimental` is the other way
+onto that page, but it gives up the sale.
+
+---
+
+## Notes
+
+### Add an article
+
+**Notes → New.** Title and Date are required — Date defaults to today and
+drives the ordering, newest first. Summary shows on the `/articles` list.
+
+Write the body in the large editor on the left. `##` gives you a section
+heading; a blank line starts a new paragraph.
+
+### Add a photo
+
+Choose a file in the **Photo** field. One photo per article — it runs as a wide
+banner under the title. **Photo caption** appears beneath it.
+
+### Hide an article
+
+Uncheck **Published**, same as guitars.
+
+---
+
+## By hand
+
+Everything above can be done by editing files on github.com instead. Commit
+directly to `main`.
+
+### Where things live
+
+```
+content/builds/<slug>.mdx        one file per guitar
+content/articles/<slug>.mdx      one file per article
+public/images/<slug>/            that entry's photos
+public/images/*.jpeg             shared site photos (homepage, about, …)
+```
+
+### Guitar template
+
+Create `content/builds/slug-of-the-guitar.mdx` (lowercase, hyphens, no
+spaces — the filename *is* the URL):
 
 ```mdx
 ---
@@ -42,145 +177,64 @@ photos:
 Body copy in markdown. Use `##` for section headings.
 ```
 
-6. Commit directly to `main`.
-7. Done. The site rebuilds and the new guitar appears at `/builds`.
+### Article template
 
-### Add photos to a guitar
+Create `content/articles/slug-of-the-article.mdx`:
 
-Every guitar's photos live in **their own folder, named after the guitar's
-file**. A guitar at `content/builds/koa-000-12fret.mdx` keeps its photos in
-`public/images/koa-000-12fret/`. This is not just for tidiness — it's the
-layout the CMS reads and writes, so photos added either way stay compatible.
+```mdx
+---
+title: "Article Title"
+date: "2026-05-01"
+photo: photo.jpeg
+photo_caption: "Optional caption shown under the photo."
+summary: "One or two sentence summary shown on the Notes list page."
+---
 
-**The easy way — use the CMS.** Open `/keystatic`, edit the guitar, and drag
-photos into the Photos field. It creates the folder, files the photos in it,
-and writes the paths for you. Nothing else to do.
+Write the article body in markdown. Use `##` for section headings.
+```
 
-**By hand on github.com:**
+### Adding photos by hand
+
+Photos go in a folder named after the entry — `public/images/koa-000-12fret/`
+for `content/builds/koa-000-12fret.mdx`.
 
 1. Navigate to `public/images/`.
-2. **Add file → Create new file**. In the filename box type the guitar's
-   slug, then `/`, then a filename — e.g.
-   `koa-000-12fret/front.jpeg`. Typing the `/` creates the folder.
-   (If the folder already exists, just open it and use **Upload files**.)
+2. **Add file → Create new file**. In the filename box type the slug, then `/`,
+   then a filename — `koa-000-12fret/front.jpeg`. Typing the `/` creates the
+   folder. If the folder already exists, open it and use **Upload files**.
 3. Use clean filenames: `front.jpeg`, `back.jpeg`, `detail.jpeg`.
-4. In the guitar's MDX file, list them by bare filename:
+4. List them in the frontmatter by **bare filename**:
 
 ```yaml
 photos:
   - front.jpeg
   - back.jpeg
-  - detail.jpeg
 ```
 
-A bare filename is looked up in that guitar's own folder, so you never have to
-repeat the slug. The first photo is the hero on both the list page and the
-detail page; the rest appear in a gallery below the specs.
-
-To reuse a shared photo that isn't specific to one guitar — a shop shot, say —
-give the full path instead, and it's used as-is:
+A bare filename is looked up in that entry's own folder, so you never repeat
+the slug. To point at a shared photo that doesn't belong to one guitar, give
+the full path and it is used as-is:
 
 ```yaml
 photos:
   - /images/wood-drying.jpeg
 ```
 
-Articles work the same way: `public/images/<article-slug>/photo.jpeg`.
+### Frontmatter reference
 
-### Add a video to a guitar
-
-Add a `video_url:` field pointing to a YouTube or Vimeo link:
-
-```yaml
-video_url: "https://youtu.be/VIDEO_ID"
-```
-
-A "Hear it played" section with an embedded player appears at the bottom of the
-build page. YouTube and Vimeo links both work.
-
-### Mark a guitar available for sale
-
-Edit the guitar's `.mdx` file, set:
-
-```yaml
-status: "available"
-price: 8500
-```
-
-The build page now shows price and a Stripe Checkout button.
-
-### Mark a guitar sold
-
-Change `status: "available"` → `status: "sold"`. The page stays as a portfolio
-record with a "Sold" badge.
-
-### Mark a guitar given
-
-Change `status: "given"`. The build appears under both `/builds` and the
-giving page.
-
-### Delete a guitar entirely
-
-In `content/builds/`, click the file → trash icon → commit. The page is gone.
-
-### Status values reference
-
-| Status | Where it shows | Buy button? |
-|---|---|---|
-| `in-progress` | `/builds` | no |
-| `available` | `/builds`, home page | yes (needs `price`) |
-| `sold` | `/builds` | no |
-| `experimental` | `/builds`, `/experimental` | no |
-| `given` | `/builds`, `/giving` (story) | no |
-
-### Build frontmatter fields
-
-Required: `title`, `status`, `body`, `top`, `back_sides`, `neck`, `fretboard`, `bridge`.
+**Guitars** — required: `title`, `status`, `body`, `top`, `back_sides`, `neck`,
+`fretboard`, `bridge`.
 
 Optional: `bracing`, `scale`, `frets_to_body`, `nut_width`, `string_set`,
 `glue`, `construction`, `year`, `serial`, `summary`, `price`, `currency`
-(defaults to `USD`), `experimental` (boolean), `photos` (list of image paths),
-`video_url` (YouTube or Vimeo link), `hero_caption` (alt text for the hero image).
+(defaults to `USD`), `experimental` (boolean), `published` (boolean, defaults
+to true), `photos` (list), `video_url`, `hero_caption`.
 
----
+**Articles** — required: `title`, `date` (`YYYY-MM-DD`).
 
-## Notes (Articles)
+Optional: `photo`, `photo_caption`, `summary`, `published`.
 
-### Add a new article
+### The one field the admin doesn't expose
 
-1. Open the repo on github.com.
-2. Navigate to `content/articles/`.
-3. Click **Add file → Create new file**.
-4. Name it `slug-of-the-article.mdx` (lowercase, hyphens, no spaces). The slug
-   becomes the URL: `sugartreeguitars.com/articles/slug-of-the-article`.
-5. Paste this template and edit:
-
-```mdx
----
-title: "Article Title"
-date: "2026-05-01"
-photo: /images/filename.jpeg
-photo_caption: "Optional caption shown under the photo."
-summary: "One or two sentence summary shown on the Notes list page."
----
-
-Write the article body in markdown. Use `##` for section headings.
-
-Each paragraph is just a blank line between blocks of text.
-```
-
-6. Commit directly to `main`.
-7. Done. The article appears at `/articles` in reverse-date order.
-
-### Article frontmatter fields
-
-Required: `title`, `date` (ISO format: `YYYY-MM-DD`).
-
-Optional: `photo` (path to image in `public/`), `photo_caption`, `summary`.
-
-### Add a photo to an article
-
-1. Upload the photo to `public/images/` on github.com.
-2. Reference it in the frontmatter: `photo: /images/filename.jpeg`.
-
-One photo per article — it displays as a wide banner below the title.
+`currency`. It defaults to `USD`, so unless you're pricing a guitar in
+something else, ignore it — and if you are, set it by hand.

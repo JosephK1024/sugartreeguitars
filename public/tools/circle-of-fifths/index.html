@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fifths for Guitar</title>
+<meta name="description" content="An interactive circle of fifths for guitarists: find your chord family, borrow neighboring chords, and pick a capo position, all from one wheel.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500;1,9..144,600&family=Karla:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="top-controls">
+    <select class="tuning-select" id="tuningSelect" aria-label="Guitar tuning">
+      <option value="standard">Standard</option>
+      <option value="dropD2">Double Drop D</option>
+      <option value="modalE">Modal E</option>
+      <option value="modalD">Modal D</option>
+      <option value="dadgad">DADGAD</option>
+      <option value="openG">Open G</option>
+      <option value="openGsus4">Open Gsus4</option>
+      <option value="openC6">Open C6</option>
+      <option value="crosby">Custom Crosby</option>
+    </select>
+    <button type="button" class="practice-toggle-btn" id="practiceModeToggle" aria-pressed="false">Practice mode</button>
+  </div>
+
+  <header class="intro practice-hide">
+    <div>
+      <p class="eyebrow">A working map, not a poster</p>
+      <h1>The circle of fifths, for people who play by ear</h1>
+      <p>It looks like music-theory wallpaper, but it's really a compass: every key's chord family sits right next to it, and the keys that blend smoothly are always neighbors on the wheel. Click around below — it updates for guitar as you go.</p>
+    </div>
+    <div class="intro-side">
+      <strong>Starting point:</strong> you don't need to read the wheel top to bottom. Pick the key you already play in most (probably G, C, D, A, E, or one of their minors), click it, and read the panel on the right.
+    </div>
+  </header>
+
+  <div class="howto practice-hide">
+    <div class="howto-step">
+      <span class="num">1</span>
+      <h3>Find your chord family</h3>
+      <p>Every key has exactly seven chords that "belong" to it. Click a key and they're all laid out for you, in the order songs actually use them.</p>
+    </div>
+    <div class="howto-step">
+      <span class="num">2</span>
+      <h3>Borrow from the neighbors</h3>
+      <p>The two keys touching yours on the wheel share six of seven notes with it. That's why key changes and borrowed chords between neighbors sound natural instead of jarring.</p>
+    </div>
+    <div class="howto-step">
+      <span class="num">3</span>
+      <h3>Let it pick your capo</h3>
+      <p>Keys far from C, G, D, A, or E mean barre chords — unless you capo up and play the easy shapes instead. The panel suggests one for every key.</p>
+    </div>
+  </div>
+
+  <main class="stage">
+    <div class="wheel-panel">
+      <div class="wheel-wrap">
+        <svg id="wheel" viewBox="0 0 640 640" role="img" aria-label="Circle of fifths wheel. Outer ring shows the twelve major keys; inner ring shows their relative minors. Select a wedge to see its chord family.">
+          <circle cx="320" cy="320" r="300" fill="none" class="ring-divider"></circle>
+          <circle cx="320" cy="320" r="205" fill="none" class="ring-divider"></circle>
+          <circle cx="320" cy="320" r="120" fill="var(--surface)" stroke="var(--line)"></circle>
+          <g id="wedges-outer"></g>
+          <g id="wedges-inner"></g>
+          <g id="progression-overlay"></g>
+          <g id="labels-outer"></g>
+          <g id="labels-inner"></g>
+        </svg>
+        <div class="readout" id="readout">
+          <span class="r-label">selected key</span>
+          <span class="r-key" id="readoutKey">G major</span>
+          <span class="r-sig" id="readoutSig">1♯ (F#)</span>
+        </div>
+      </div>
+      <div class="wheel-legend practice-hide">
+        <span><i class="swatch sel"></i> selected key</span>
+        <span><i class="swatch nb"></i> neighbors (its IV &amp; V, or ii &amp; III chords)</span>
+        <span><i class="swatch rel"></i> relative major / minor</span>
+      </div>
+      <div class="tuning-caption practice-hide" id="tuningCaption"></div>
+      <div class="prog-compact-wrap">
+        <p class="prog-compact-label">Progressions</p>
+        <div class="prog-list-compact" id="progListCompact"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <h2 id="panelTitle">G major</h2>
+        <span class="sig-badge" id="panelSig">1♯ (F#) · relative minor Em</span>
+      </div>
+
+      <div class="section-head">
+        <p class="section-label practice-hide">Chord family</p>
+        <div class="genre-mode-row" id="genreModeRow" role="group" aria-label="Chord family sound">
+          <button type="button" class="genre-mode-btn is-on" data-mode="plain">Plain/Folk</button>
+          <button type="button" class="genre-mode-btn" data-mode="jazz">Jazz</button>
+          <button type="button" class="genre-mode-btn" data-mode="blues">Blues</button>
+          <button type="button" class="genre-mode-btn" data-mode="punk">Punk</button>
+        </div>
+      </div>
+      <p class="genre-mode-caption" id="genreModeCaption"></p>
+      <div class="chord-family practice-hide" id="chordFamily"></div>
+      <p class="practice-hide" style="font-size:0.78rem; color:var(--ink-faint); margin:0.4rem 0 0;">Chords tinted <span style="color:var(--note-dim); font-weight:600;">red</span> are diminished — unstable, built for passing through rather than resting on.</p>
+
+      <p class="section-label" style="margin-top:1.3rem;">Chord shapes on guitar</p>
+      <div class="chord-diagrams" id="chordDiagrams"></div>
+
+      <details class="idea-capture-details" id="ideaCaptureDetails">
+        <summary class="idea-capture-summary">🎵 Capture a song idea <span class="idea-capture-hint">— click chords or notes as you find them, tag the part, export for later</span></summary>
+        <div class="idea-capture-body">
+          <div class="idea-capture-row">
+            <label class="idea-capture-label" for="ideaPartSelect">Song part</label>
+            <select id="ideaPartSelect"></select>
+          </div>
+          <div class="idea-capture-current" id="ideaCurrentSnippet">
+            <span class="idea-current-empty">Click chords (or scale notes below) to start building a snippet…</span>
+          </div>
+          <div class="idea-capture-actions">
+            <input type="text" id="ideaNoteInput" class="idea-note-input" placeholder="Optional note (e.g. &quot;felt melancholy&quot;)" maxlength="120">
+            <button type="button" class="idea-btn" id="ideaSaveBtn">+ Save this idea</button>
+            <button type="button" class="idea-btn idea-btn-ghost" id="ideaClearBtn">Clear</button>
+          </div>
+          <div class="idea-capture-list" id="ideaSavedList"></div>
+          <div class="idea-capture-export-row" id="ideaExportRow" hidden>
+            <button type="button" class="idea-btn" id="ideaExportBtn">Export all ideas as text</button>
+            <button type="button" class="idea-btn idea-btn-ghost" id="ideaClearAllBtn">Clear all</button>
+          </div>
+          <div class="idea-export-output" id="ideaExportOutput" hidden>
+            <textarea id="ideaExportTextarea" class="idea-export-textarea" readonly rows="8"></textarea>
+            <div class="idea-export-output-actions">
+              <button type="button" class="idea-btn" id="ideaCopyBtn">Copy to clipboard</button>
+              <span class="idea-copy-status" id="ideaCopyStatus"></span>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <p class="neighbor-note practice-hide" id="neighborNote"></p>
+
+      <p class="section-label practice-hide">Progressions to try in this key</p>
+      <div class="prog-list practice-hide" id="progList"></div>
+
+      <p class="section-label practice-hide">On guitar</p>
+      <div class="guitar-tip practice-hide" id="guitarTip"></div>
+
+      <p class="section-label" id="scaleBlocksLabel" style="margin-top:1.5rem;">Lead notes to try</p>
+      <div id="scaleBlocks"></div>
+      <p class="neighbor-note practice-hide" style="margin-top:0.9rem;">Both are five-note (or six, with the blue note) <b>moveable shapes</b> — the pattern of frets between the notes stays the same in every key. Once you know where the root note falls on the low E or A string, the rest of the shape follows. Almost any note from these lists will sound "in" over the whole chord family — mistakes mostly come from lingering on one too long, not from playing it. The note tinted <span style="color:var(--note-blue); font-weight:700;">blue</span> is the blue note itself — unrelated to the wheel's teal relative-key marking above, it's just a small pun on the name.</p>
+
+      <details class="modes-details" id="modesDetails">
+        <summary class="modes-summary">Modes <span class="modes-hint">— an optional extra flavor for this key</span></summary>
+        <div class="modes-body" id="modesBlock"></div>
+      </details>
+    </div>
+  </main>
+
+  <section class="deep practice-hide">
+    <h2>Why the wheel is shaped like this</h2>
+    <p>Start on <b class="mono">C</b> and go up a fifth — five notes up the alphabet, wrapping as needed — and you land on <b class="mono">G</b>. Go up a fifth from G and you land on <b class="mono">D</b>. Keep stacking fifths and you eventually touch all twelve keys and land back on C, which is why it's a circle instead of a line. Each step clockwise adds exactly one sharp to the key signature; each step counterclockwise adds one flat. That's the whole mechanism — the wheel isn't decoration, it's just every key sorted by how many accidentals it has.</p>
+    <p>The reason this matters for songwriting: <b>the two chords sitting next to any key on the wheel are that key's IV and V chords</b> — the two chords, besides the root itself, that almost every chord progression leans on. Pick a key, look one wedge either side of it, and you're looking at three-quarters of the "Wonderwall" chord vocabulary before you've thought about theory at all.</p>
+  </section>
+
+  <section class="deep practice-hide">
+    <h2>Reading a chord family</h2>
+    <p>The seven chords in the panel run <b>I – ii – iii – IV – V – vi – vii°</b>. Capital-numeral chords (I, IV, V) are major; lowercase (ii, iii, vi) are minor; the little circle (vii°) is a diminished chord you'll mostly use in passing, not as a resting point. Almost every folk, pop, rock, and country song is built from I, IV, V, and vi — that's four chords out of the seven, and they're always the biggest, most useful ones in the family.</p>
+    <p>Clicking the inner ring instead reframes things around the <b>relative minor</b> — same seven notes, same seven chords, but counted from the vi chord instead, so it becomes i. Minor-key songs usually lean on i, iv, v, VI, and VII. One common trick: swap the minor v for a major V (in A minor, that's E instead of Em) right before returning to i — it pulls harder toward home. That's a borrowed note from the harmonic minor scale, and it's why so many minor-key songs use a chord that technically isn't "in the key."</p>
+  </section>
+
+  <footer class="practice-hide">
+    Chord spelling follows standard key-signature notation (so F♯ major is spelled with a theoretical E♯ rather than F — guitarists will only ever see this in the rarest keys). Capo suggestions favor the lowest fret that lets you play fully open C, D, E, G, A, Am, Dm, or Em shapes.
+  </footer>
+
+</div>
+
+
+<script src="script.js"></script>
+</body>
+</html>

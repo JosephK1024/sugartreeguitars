@@ -1,0 +1,1177 @@
+  :root{
+    --bg:#f2ecda;
+    --surface:#fffcf4;
+    --surface-2:#ece3ca;
+    --ink:#251f17;
+    --ink-soft:#5c5140;
+    --ink-faint:#8a7d64;
+    --accent:#b17f2c;
+    --accent-ink:#3c2c0c;
+    --accent-2:#3d6a56;
+    --accent-2-ink:#eafbf2;
+    --line:#d8c9a2;
+    --line-strong:#c2ae7c;
+    --shadow: 0 1px 0 rgba(37,31,23,0.04);
+    --wedge-fill: var(--surface);
+    --wedge-fill-alt: var(--surface-2);
+    --wedge-selected: var(--accent);
+    --wedge-neighbor: color-mix(in srgb, var(--accent) 35%, var(--surface));
+    --wedge-relative: color-mix(in srgb, var(--accent-2) 30%, var(--surface));
+    --note-blue: #3d6fae;
+    --note-blue-bg: color-mix(in srgb, var(--note-blue) 22%, var(--surface));
+    --note-dim: #9c4b3f;
+    --note-dim-bg: color-mix(in srgb, var(--note-dim) 18%, var(--surface));
+    --focus-ring: #2f6fb0;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#1a150f;
+      --surface:#241e15;
+      --surface-2:#2d2618;
+      --ink:#f1e7d3;
+      --ink-soft:#c7b89a;
+      --ink-faint:#93856a;
+      --accent:#e0a54f;
+      --accent-ink:#241a05;
+      --accent-2:#7fac97;
+      --accent-2-ink:#0d211a;
+      --line:#3c3324;
+      --line-strong:#4d422c;
+      --shadow: 0 1px 0 rgba(0,0,0,0.2);
+      --wedge-fill: var(--surface);
+      --wedge-fill-alt: var(--surface-2);
+      --wedge-selected: var(--accent);
+      --wedge-neighbor: color-mix(in srgb, var(--accent) 30%, var(--surface));
+      --wedge-relative: color-mix(in srgb, var(--accent-2) 30%, var(--surface));
+      --note-blue: #7fb2e8;
+      --note-blue-bg: color-mix(in srgb, var(--note-blue) 22%, var(--surface));
+      --note-dim: #e0897a;
+      --note-dim-bg: color-mix(in srgb, var(--note-dim) 18%, var(--surface));
+      --focus-ring: #8fc4ff;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#1a150f;
+    --surface:#241e15;
+    --surface-2:#2d2618;
+    --ink:#f1e7d3;
+    --ink-soft:#c7b89a;
+    --ink-faint:#93856a;
+    --accent:#e0a54f;
+    --accent-ink:#241a05;
+    --accent-2:#7fac97;
+    --accent-2-ink:#0d211a;
+    --line:#3c3324;
+    --line-strong:#4d422c;
+    --shadow: 0 1px 0 rgba(0,0,0,0.2);
+    --wedge-fill: var(--surface);
+    --wedge-fill-alt: var(--surface-2);
+    --wedge-selected: var(--accent);
+    --wedge-neighbor: color-mix(in srgb, var(--accent) 30%, var(--surface));
+    --wedge-relative: color-mix(in srgb, var(--accent-2) 30%, var(--surface));
+    --note-blue: #7fb2e8;
+    --note-blue-bg: color-mix(in srgb, var(--note-blue) 22%, var(--surface));
+    --note-dim: #e0897a;
+    --note-dim-bg: color-mix(in srgb, var(--note-dim) 18%, var(--surface));
+    --focus-ring: #8fc4ff;
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Karla", ui-sans-serif, system-ui, sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:2.75rem 1.5rem 5rem;
+  }
+  .mono{ font-family:"IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace; }
+  ::selection{ background:var(--accent); color:var(--accent-ink); }
+  a{ color:var(--accent-2); }
+  :focus-visible{ outline:2.5px solid var(--focus-ring); outline-offset:2px; border-radius:4px; }
+
+  /* ---------- Header ---------- */
+  header.intro{
+    display:grid;
+    grid-template-columns: minmax(0,1.3fr) minmax(0,1fr);
+    gap:2.5rem;
+    align-items:end;
+    border-bottom:1px solid var(--line);
+    padding-bottom:2rem;
+    margin-bottom:2.5rem;
+  }
+  .eyebrow{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--accent-2);
+    margin:0 0 0.7rem;
+    font-weight:600;
+  }
+  h1{
+    font-family:"Fraunces", Georgia, serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:clamp(2.3rem, 4.2vw, 3.4rem);
+    line-height:1.02;
+    letter-spacing:-0.01em;
+    margin:0 0 0.9rem;
+    text-wrap:balance;
+  }
+  header.intro p{
+    margin:0;
+    max-width:56ch;
+    color:var(--ink-soft);
+    font-size:1.03rem;
+  }
+  .intro-side{
+    font-size:0.95rem;
+    color:var(--ink-soft);
+    border-left:2px solid var(--line-strong);
+    padding-left:1.2rem;
+  }
+  .intro-side strong{ color:var(--ink); }
+
+  /* ---------- How-to strip ---------- */
+  .howto{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1.4rem;
+    margin-bottom:3rem;
+  }
+  .howto-step{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:1.1rem 1.2rem 1.25rem;
+    box-shadow:var(--shadow);
+  }
+  .howto-step .num{
+    font-family:"Fraunces", serif;
+    font-style:italic;
+    font-size:1.5rem;
+    color:var(--accent);
+    display:block;
+    margin-bottom:0.35rem;
+  }
+  .howto-step h3{
+    font-family:"Karla", sans-serif;
+    font-size:0.98rem;
+    font-weight:700;
+    margin:0 0 0.3rem;
+  }
+  .howto-step p{ margin:0; font-size:0.9rem; color:var(--ink-soft); }
+
+  /* ---------- Main layout ---------- */
+  main.stage{
+    display:grid;
+    grid-template-columns: minmax(0,1fr) minmax(320px, 0.82fr);
+    gap:2.5rem;
+    align-items:start;
+  }
+  @media (max-width: 880px){
+    header.intro{ grid-template-columns:1fr; }
+    .intro-side{ border-left:none; border-top:2px solid var(--line-strong); padding-left:0; padding-top:1rem; }
+    .howto{ grid-template-columns:1fr; }
+    main.stage{ grid-template-columns:1fr; }
+  }
+
+  .wheel-panel{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:1.6rem;
+    box-shadow:var(--shadow);
+  }
+  .wheel-wrap{
+    position:relative;
+    width:100%;
+    max-width:560px;
+    margin:0 auto;
+    container-type:inline-size;
+  }
+  .wheel-wrap svg{ width:100%; height:auto; display:block; }
+
+  .wedge{
+    fill:var(--wedge-fill);
+    stroke:var(--line);
+    stroke-width:1;
+    cursor:pointer;
+    transition:fill 0.15s ease;
+  }
+  .wedge:hover{ fill:color-mix(in srgb, var(--accent) 16%, var(--wedge-fill)); }
+  .wedge.is-selected{ fill:var(--wedge-selected) !important; }
+  .wedge.is-neighbor{ fill:var(--wedge-neighbor) !important; }
+  .wedge.is-relative{ fill:var(--wedge-relative) !important; }
+
+  .wedge-label{
+    font-family:"Fraunces", serif;
+    font-weight:600;
+    fill:var(--ink);
+    text-anchor:middle;
+    dominant-baseline:middle;
+    pointer-events:none;
+    font-size:22px;
+  }
+  .wedge.is-selected + .wedge-label,
+  .is-selected-label{ fill:var(--accent-ink); }
+  .wedge-label.inner-label{ font-size:16px; font-family:"IBM Plex Mono", monospace; font-weight:500; }
+  .wedge-sig{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:10.5px;
+    fill:var(--ink-faint);
+    text-anchor:middle;
+    pointer-events:none;
+  }
+  .ring-divider{ fill:none; stroke:var(--line); stroke-width:1; }
+
+  .readout{
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    text-align:center;
+    pointer-events:none;
+    width:34%;
+  }
+  .readout .r-label{
+    font-family:"IBM Plex Mono", monospace;
+    /* Sized relative to the wheel's own rendered width (container query units),
+       not the viewport — so this stays legible instead of overlapping neighboring
+       wedge labels when the wheel itself is shrunk small, e.g. in practice mode. */
+    font-size:clamp(0.4rem, 2.6cqw, 0.62rem);
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    display:block;
+    margin-bottom:0.2rem;
+  }
+  .readout .r-key{
+    font-family:"Fraunces", serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:clamp(0.95rem, 10cqw, 2.1rem);
+    color:var(--ink);
+    line-height:1;
+  }
+  .readout .r-sig{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:clamp(0.44rem, 3cqw, 0.7rem);
+    color:var(--ink-soft);
+    margin-top:0.3rem;
+    display:block;
+  }
+
+  .wheel-legend{
+    display:flex;
+    gap:1.1rem;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin-top:1.2rem;
+    font-size:0.78rem;
+    color:var(--ink-soft);
+  }
+  .wheel-legend span{ display:inline-flex; align-items:center; gap:0.4rem; }
+  .swatch{ width:11px; height:11px; border-radius:3px; display:inline-block; border:1px solid var(--line-strong); }
+  .swatch.sel{ background:var(--accent); }
+  .swatch.nb{ background:var(--wedge-neighbor); }
+  .swatch.rel{ background:var(--wedge-relative); }
+
+  /* ---------- Panel ---------- */
+  .panel{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:1.7rem 1.8rem 1.9rem;
+    box-shadow:var(--shadow);
+  }
+  .panel-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:1rem;
+    border-bottom:1px solid var(--line);
+    padding-bottom:1rem;
+    margin-bottom:1.2rem;
+  }
+  .panel-head h2{
+    font-family:"Fraunces", serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:1.7rem;
+    margin:0;
+  }
+  .panel-head .sig-badge{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    white-space:nowrap;
+  }
+
+  .section-label{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.7rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--accent-2);
+    font-weight:600;
+    margin:0 0 0.6rem;
+  }
+
+  .chord-family{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:0.45rem;
+    margin-bottom:1.5rem;
+  }
+  .chord-chip{
+    background:var(--wedge-fill-alt);
+    border:1px solid var(--line);
+    border-radius:9px;
+    padding:0.5rem 0.25rem 0.45rem;
+    text-align:center;
+  }
+  .chord-chip .rn{
+    display:block;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.62rem;
+    color:var(--ink-faint);
+    margin-bottom:0.25rem;
+  }
+  .chord-chip .cn{
+    display:block;
+    font-family:"IBM Plex Mono", monospace;
+    font-weight:600;
+    font-size:0.92rem;
+  }
+  .chord-chip.hi{ background:var(--wedge-neighbor); border-color:var(--line-strong); }
+  .chord-chip.blue{ background:var(--note-blue-bg); border-color:var(--note-blue); }
+  .chord-chip.blue .rn{ color:var(--note-blue); }
+  .chord-chip.dim{ background:var(--note-dim-bg); border-color:var(--note-dim); }
+  .chord-chip.dim .rn{ color:var(--note-dim); }
+
+  .section-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:0.8rem;
+    margin-bottom:0.6rem;
+    flex-wrap:wrap;
+  }
+  .section-head .section-label{ margin:0; }
+  .toggle-btn{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.68rem;
+    letter-spacing:0.03em;
+    background:var(--wedge-fill-alt);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:0.3rem 0.7rem;
+    cursor:pointer;
+    color:var(--ink-soft);
+  }
+  .toggle-btn.is-on{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:var(--accent-ink);
+    font-weight:600;
+  }
+  /* Replaces the old single "+7ths" toggle: a single-select "what genre is this
+     key's chord family speaking" picker (see genreModeQuality() in the script).
+     Plain/Folk, Jazz, Blues and Punk are mutually exclusive -- picking one clears
+     the others, since e.g. Jazz and Blues disagree about what the I chord should be. */
+  .genre-mode-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0.3rem;
+  }
+  .genre-mode-btn{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.66rem;
+    letter-spacing:0.02em;
+    background:var(--wedge-fill-alt);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:0.3rem 0.6rem;
+    cursor:pointer;
+    color:var(--ink-soft);
+  }
+  .genre-mode-btn:hover{ border-color:var(--line-strong); color:var(--ink); }
+  .genre-mode-btn.is-on{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:var(--accent-ink);
+    font-weight:600;
+  }
+  .genre-mode-caption{
+    font-size:0.78rem;
+    color:var(--ink-faint);
+    margin:0 0 0.9rem;
+  }
+  /* Blues intentionally gives I and IV a dominant 7th, which isn't their "correct"
+     diatonic quality (that would be maj7) -- flagged the same dashed-border way
+     the borrowed IV sus4 embellishment chip already is, for the same reason. */
+  .chord-diagram-cell.genre-borrowed{ border-style:dashed; }
+  .chord-chip.genre-borrowed{ border-style:dashed; }
+
+  .scale-block + .scale-block{ margin-top:1rem; }
+  .scale-name-row{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:0.6rem;
+    flex-wrap:wrap;
+    margin-bottom:0.5rem;
+  }
+  .scale-name-row .scale-name{ margin-bottom:0; }
+  .position-ctl{
+    display:flex;
+    align-items:center;
+    gap:0.3rem;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.62rem;
+    color:var(--ink-soft);
+    white-space:nowrap;
+  }
+  .pos-btn{
+    width:18px; height:18px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:var(--surface);
+    color:var(--ink);
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:0;
+    font-size:0.75rem;
+    line-height:1;
+  }
+  .pos-btn:hover{ border-color:var(--line-strong); }
+  .pos-label{ min-width:6.4em; text-align:center; }
+  .scale-name{
+    font-size:0.88rem;
+    font-weight:700;
+    margin-bottom:0.5rem;
+  }
+  .scale-name .scale-desc{
+    font-weight:400;
+    color:var(--ink-soft);
+  }
+  /* The short "feel" phrase is the compact stand-in for .scale-desc: hidden here
+     (the full sentence is what shows normally), swapped on in practice mode below
+     since it's short enough not to wrap the name row's position control off. */
+  .scale-name .scale-feel{
+    display:none;
+    font-weight:400;
+    color:var(--ink-soft);
+  }
+  .scale-row{ margin-bottom:0; }
+
+  .chord-diagrams{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(72px, 1fr));
+    gap:0.6rem;
+    margin-bottom:1.5rem;
+  }
+  .chord-diagram-cell{
+    position:relative;
+    background:var(--wedge-fill-alt);
+    border:1px solid var(--line);
+    border-radius:9px;
+    padding:0.4rem 0.4rem 0.3rem;
+    text-align:center;
+  }
+  /* Absolutely positioned (rather than sitting in normal flow below the diagram)
+     so it never adds to the cell's height -- important in practice mode, where the
+     chord-diagram grid is already sized to the exact available vertical budget. */
+  .shape-toggle-btn{
+    position:absolute;
+    top:3px; right:3px;
+    width:16px; height:16px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:var(--surface);
+    color:var(--ink-soft);
+    font-size:0.58rem;
+    line-height:1;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:0;
+  }
+  .shape-toggle-btn:hover{ border-color:var(--line-strong); color:var(--ink); }
+  .shape-toggle-btn.is-alt{ background:var(--accent-2); border-color:var(--accent-2); color:var(--accent-2-ink); }
+  /* Mirrors .shape-toggle-btn's positioning on the opposite corner: "add this
+     chord, exactly as currently displayed (genre mode + any embellishment chip
+     included), to the idea I'm capturing below." See addChordToSnippet(). */
+  .idea-add-btn{
+    position:absolute;
+    top:3px; left:3px;
+    width:16px; height:16px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:var(--surface);
+    color:var(--ink-soft);
+    font-size:0.5rem;
+    line-height:1;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:0;
+  }
+  .idea-add-btn:hover{ border-color:var(--line-strong); color:var(--ink); }
+  .idea-add-btn.is-flash{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+  .chord-diagram-cell.dim{ background:var(--note-dim-bg); border-color:var(--note-dim); }
+  .chord-diagram-label{ margin-bottom:0.15rem; }
+  .chord-diagram-label .rn{
+    display:block;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.6rem;
+    color:var(--ink-faint);
+  }
+  .chord-diagram-cell.dim .chord-diagram-label .rn{ color:var(--note-dim); }
+  .chord-diagram-label .cn{
+    display:block;
+    font-family:"IBM Plex Mono", monospace;
+    font-weight:600;
+    font-size:0.76rem;
+    margin-bottom:0.15rem;
+  }
+  /* "Try this instead" embellishment chips -- small pill buttons under each chord
+     diagram (see embellishmentsFor() in the script). Shown in practice mode too
+     (shrunk down, see the compact rules below) -- the reference panel there
+     already scrolls internally, so there's room, and there's no reason to hide a
+     feature you might specifically want mid-practice-session. */
+  .emb-chip-row{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:0.2rem;
+    margin-top:0.35rem;
+  }
+  .emb-chip{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.58rem;
+    letter-spacing:0.02em;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:0.12rem 0.4rem;
+    cursor:pointer;
+    color:var(--ink-soft);
+    line-height:1.4;
+  }
+  .emb-chip:hover{ border-color:var(--line-strong); color:var(--ink); }
+  .emb-chip.is-active{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:var(--accent-ink);
+    font-weight:600;
+  }
+  .emb-chip.is-borrowed.is-active{ background:var(--accent-2); border-color:var(--accent-2); color:var(--accent-2-ink); }
+  .emb-chip.is-borrowed:not(.is-active){ border-style:dashed; }
+  .emb-vibe-caption{
+    margin-top:0.3rem;
+    font-size:0.66rem;
+    line-height:1.35;
+    color:var(--ink-soft);
+    text-align:left;
+  }
+  .scale-diagram{ margin-top:0.5rem; max-width:220px; }
+  .fret-diagram-svg{ width:100%; height:auto; display:block; }
+
+  /* Scale/mode note chips double as "add this note to my idea" buttons -- see
+     renderNoteChips()'s optional onNoteClick param, wired up only for scale
+     blocks (not the plain chord-family roman-numeral strip, which stays
+     display-only). */
+  .chord-chip.is-clickable{ cursor:pointer; }
+  .chord-chip.is-clickable:hover{ border-color:var(--line-strong); }
+
+  /* ---------- idea capture ---------- */
+  .idea-capture-details{ margin:0 0 1.5rem; }
+  .idea-capture-summary{
+    cursor:pointer;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.72rem;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    font-weight:600;
+  }
+  .idea-capture-hint{
+    text-transform:none;
+    letter-spacing:normal;
+    font-weight:400;
+    color:var(--ink-faint);
+  }
+  .idea-capture-body{ margin-top:0.8rem; }
+  .idea-capture-row{ display:flex; align-items:center; gap:0.5rem; margin-bottom:0.6rem; flex-wrap:wrap; }
+  .idea-capture-label{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.62rem;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    color:var(--ink-faint);
+  }
+  #ideaPartSelect{
+    font-family:inherit;
+    font-size:0.78rem;
+    padding:0.3rem 0.55rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--surface);
+    color:var(--ink);
+  }
+  .idea-capture-current{
+    min-height:2.2rem;
+    background:var(--wedge-fill-alt);
+    border:1px dashed var(--line);
+    border-radius:10px;
+    padding:0.5rem 0.7rem;
+    margin-bottom:0.6rem;
+  }
+  .idea-current-empty{ font-size:0.78rem; color:var(--ink-faint); }
+  .idea-token-row{ display:flex; align-items:center; flex-wrap:wrap; gap:0.3rem; margin-bottom:0.3rem; }
+  .idea-token-row:last-child{ margin-bottom:0; }
+  .idea-token-row-label{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.62rem;
+    color:var(--ink-faint);
+    margin-right:0.2rem;
+  }
+  .idea-token{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.72rem;
+    background:var(--accent);
+    color:var(--accent-ink);
+    border:1px solid var(--accent);
+    border-radius:999px;
+    padding:0.15rem 0.55rem;
+    cursor:pointer;
+  }
+  .idea-token:hover{ opacity:0.85; }
+  .idea-capture-actions{ display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap; margin-bottom:0.7rem; }
+  .idea-note-input{
+    flex:1 1 220px;
+    font-family:inherit;
+    font-size:0.78rem;
+    padding:0.35rem 0.6rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--surface);
+    color:var(--ink);
+  }
+  .idea-btn{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.68rem;
+    letter-spacing:0.02em;
+    background:var(--accent);
+    border:1px solid var(--accent);
+    border-radius:999px;
+    padding:0.32rem 0.7rem;
+    cursor:pointer;
+    color:var(--accent-ink);
+    font-weight:600;
+  }
+  .idea-btn:hover{ opacity:0.9; }
+  .idea-btn-ghost{
+    background:transparent;
+    border-color:var(--line);
+    color:var(--ink-soft);
+    font-weight:400;
+  }
+  .idea-btn-ghost:hover{ border-color:var(--line-strong); color:var(--ink); }
+  .idea-capture-list{ display:flex; flex-direction:column; gap:0.4rem; margin-bottom:0.6rem; }
+  .idea-saved-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:0.6rem;
+    background:var(--wedge-fill-alt);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:0.4rem 0.6rem;
+    flex-wrap:wrap;
+  }
+  .idea-saved-text{ font-size:0.76rem; display:flex; flex-wrap:wrap; gap:0.4rem; align-items:baseline; }
+  .idea-saved-part{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.62rem;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    color:var(--accent-2-ink);
+    background:var(--accent-2);
+    border-radius:5px;
+    padding:0.08rem 0.4rem;
+  }
+  .idea-saved-chords{ color:var(--ink); }
+  .idea-saved-note{ color:var(--ink-faint); font-style:italic; }
+  .idea-saved-actions{ display:flex; gap:0.3rem; flex-shrink:0; }
+  .idea-mini-btn{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.6rem;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:0.15rem 0.4rem;
+    cursor:pointer;
+    color:var(--ink-soft);
+  }
+  .idea-mini-btn:hover{ border-color:var(--line-strong); color:var(--ink); }
+  .idea-mini-btn-danger:hover{ border-color:var(--note-dim); color:var(--note-dim); }
+  .idea-capture-export-row{ display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; }
+  .idea-export-output{ margin-top:0.7rem; }
+  .idea-export-textarea{
+    width:100%;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.72rem;
+    padding:0.6rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--surface);
+    color:var(--ink);
+    resize:vertical;
+    box-sizing:border-box;
+  }
+  .idea-export-output-actions{ display:flex; align-items:center; gap:0.6rem; margin-top:0.4rem; }
+  .idea-copy-status{ font-size:0.7rem; color:var(--ink-faint); }
+
+  .modes-details{ margin:0 0 1.5rem; }
+  .modes-summary{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.7rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--accent-2);
+    font-weight:600;
+    cursor:pointer;
+    list-style:none;
+    display:flex;
+    align-items:center;
+    gap:0.4rem;
+  }
+  .modes-summary::-webkit-details-marker{ display:none; }
+  .modes-summary::before{
+    content:'▸';
+    display:inline-block;
+    transition:transform 0.15s ease;
+    font-size:0.85em;
+  }
+  .modes-details[open] .modes-summary::before{ transform:rotate(90deg); }
+  .modes-summary .modes-hint{
+    text-transform:none;
+    letter-spacing:normal;
+    font-weight:400;
+    color:var(--ink-faint);
+  }
+  .modes-body{ margin-top:0.9rem; }
+  .modes-body .neighbor-note{ margin-bottom:0; }
+  .mode-picker{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0.35rem;
+    margin-bottom:0.9rem;
+  }
+  .mode-pick-btn{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.68rem;
+    letter-spacing:0.02em;
+    background:var(--wedge-fill-alt);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:0.3rem 0.65rem;
+    cursor:pointer;
+    color:var(--ink-soft);
+  }
+  .mode-pick-btn:hover{ border-color:var(--line-strong); }
+  .mode-pick-btn.is-on{
+    background:var(--accent-2);
+    border-color:var(--accent-2);
+    color:var(--accent-2-ink);
+    font-weight:600;
+  }
+
+  .neighbor-note{
+    font-size:0.88rem;
+    color:var(--ink-soft);
+    margin:0 0 1.5rem;
+    padding:0.85rem 1rem;
+    background:var(--wedge-fill-alt);
+    border-radius:10px;
+    border:1px solid var(--line);
+  }
+  .neighbor-note b{ color:var(--ink); }
+
+  .prog-list{
+    display:flex;
+    flex-direction:column;
+    gap:0.55rem;
+    margin-bottom:1.5rem;
+  }
+  .prog-btn{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:0.4rem 0.8rem;
+    width:100%;
+    text-align:left;
+    background:var(--wedge-fill-alt);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:0.6rem 0.85rem;
+    cursor:pointer;
+    font-family:inherit;
+    color:var(--ink);
+    transition:border-color 0.15s ease, background 0.15s ease;
+    flex-wrap:wrap;
+  }
+  .prog-btn:hover{ border-color:var(--line-strong); }
+  .prog-btn.is-active{ background:var(--wedge-neighbor); border-color:var(--accent); }
+  .prog-btn .p-name{ font-size:0.86rem; color:var(--ink-soft); flex-shrink:0; }
+  /* Most progressions are short enough to sit on one line next to their name
+     (see justify-content:space-between above); the 12-chord "Full 12-bar blues"
+     entry is the one exception -- flex-wrap lets its chord list drop to its own
+     full-width line below the name instead of squeezing both into one row and
+     force-wrapping the name character by character. */
+  .prog-btn .p-chords{ font-family:"IBM Plex Mono", monospace; font-weight:600; font-size:0.92rem; white-space:normal; overflow-wrap:break-word; flex:1 1 auto; text-align:right; min-width:0; }
+
+  /* Compact progression picker: lives beside the wheel, visible ONLY in practice
+     mode -- the full .prog-list above (with its longer names) stays the normal
+     view's picker, hidden there via .practice-hide like the rest of the reference
+     material. Both lists share the same click logic (see renderProgressions) so
+     picking one updates the other's is-active state too and redraws the same
+     overlay on the wheel, which is already visible and unaffected either way. */
+  .prog-compact-wrap{ display:none; }
+  .prog-compact-label{
+    display:none; /* only shown via the practice-mode rule below */
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.6rem;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin:0 0 0.35rem;
+  }
+  .prog-list-compact{
+    display:flex;
+    flex-direction:column;
+    gap:0.3rem;
+    width:100%;
+    overflow-y:auto;
+  }
+  .prog-btn-compact{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:0.05rem;
+    width:100%;
+    text-align:left;
+    background:var(--wedge-fill-alt);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:0.3rem 0.55rem;
+    cursor:pointer;
+    font-family:inherit;
+    color:var(--ink);
+    flex-shrink:0;
+  }
+  .prog-btn-compact:hover{ border-color:var(--line-strong); }
+  .prog-btn-compact.is-active{ background:var(--wedge-neighbor); border-color:var(--accent); }
+  .prog-btn-compact .pc-name{ font-size:0.58rem; color:var(--ink-soft); line-height:1.25; }
+  .prog-btn-compact .pc-chords{ font-family:"IBM Plex Mono", monospace; font-weight:600; font-size:0.66rem; }
+
+  .guitar-tip{
+    font-size:0.9rem;
+    color:var(--ink-soft);
+    padding:0.9rem 1rem;
+    border-left:3px solid var(--accent);
+    background:var(--wedge-fill-alt);
+    border-radius:0 10px 10px 0;
+  }
+  .guitar-tip b{ color:var(--ink); font-family:"IBM Plex Mono", monospace; }
+
+  /* ---------- Reference sections below ---------- */
+  section.deep{
+    margin-top:3.5rem;
+    padding-top:2.5rem;
+    border-top:1px solid var(--line);
+  }
+  section.deep h2{
+    font-family:"Fraunces", serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:1.7rem;
+    margin:0 0 1rem;
+  }
+  section.deep p{
+    max-width:70ch;
+    color:var(--ink-soft);
+    font-size:0.98rem;
+  }
+  section.deep p + p{ margin-top:0.9rem; }
+  section.deep p b{ color:var(--ink); }
+
+  footer{
+    margin-top:3rem;
+    padding-top:1.5rem;
+    border-top:1px solid var(--line);
+    font-size:0.82rem;
+    color:var(--ink-faint);
+  }
+
+  /* ---------- Practice mode: wheel + chord shapes + scales, one screen, no scrolling ---------- */
+  .top-controls{
+    position:fixed;
+    top:0.85rem;
+    right:0.85rem;
+    z-index:80;
+    display:flex;
+    align-items:center;
+    gap:0.5rem;
+  }
+  .practice-toggle-btn{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.68rem;
+    letter-spacing:0.03em;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:0.45rem 0.9rem;
+    cursor:pointer;
+    color:var(--ink);
+    box-shadow:var(--shadow);
+  }
+  .practice-toggle-btn:hover{ border-color:var(--line-strong); }
+  body.practice-mode .practice-toggle-btn{
+    background:var(--accent); border-color:var(--accent); color:var(--accent-ink); font-weight:600;
+  }
+  .tuning-select{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.68rem;
+    letter-spacing:0.02em;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:0.45rem 1.6rem 0.45rem 0.8rem;
+    cursor:pointer;
+    color:var(--ink);
+    box-shadow:var(--shadow);
+    max-width:11rem;
+  }
+  .tuning-select:hover{ border-color:var(--line-strong); }
+  .tuning-caption{
+    text-align:center;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.72rem;
+    color:var(--ink-soft);
+  }
+  /* No reserved space at all while empty (Standard tuning) -- only takes up room
+     once there's an actual tuning name to show, so switching back to Standard
+     can't leave a phantom gap. Hidden entirely in practice mode (practice-hide,
+     same as the rest of the reference material) since that layout has no spare
+     vertical budget for it and the tuning dropdown itself stays visible there
+     regardless, so the active tuning is never actually hidden from view. */
+  .tuning-caption:not(:empty){ margin-top:0.5rem; }
+
+  body.practice-mode{ overflow:auto; }
+  body.practice-mode .practice-hide{ display:none !important; }
+
+  body.practice-mode .wrap{
+    max-width:none;
+    height:100vh;
+    padding:3.4rem 1rem 0.9rem;
+    display:flex;
+    flex-direction:column;
+  }
+  body.practice-mode main.stage{
+    flex:1 1 auto;
+    min-height:0;
+    display:grid;
+    grid-template-columns:minmax(240px, 36%) minmax(0,1fr);
+    gap:1.1rem;
+    align-items:stretch;
+  }
+  body.practice-mode .wheel-panel{
+    padding:0.8rem;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    min-height:0;
+    min-width:0;
+    gap:0.5rem;
+  }
+  body.practice-mode .wheel-wrap{
+    width:100%;
+    max-width:min(100%, 58vh, 420px);
+    margin:0 auto;
+    flex-shrink:0;
+  }
+  /* The progression picker takes whatever room is left below the wheel, scrolling
+     internally (rather than growing) if a key's full set of progressions doesn't
+     fit -- so it can never be what tips the practice-mode layout into overflow. */
+  body.practice-mode .prog-compact-wrap{
+    display:flex;
+    flex-direction:column;
+    width:100%;
+    min-height:0;
+    flex:1 1 auto;
+    overflow:hidden;
+  }
+  body.practice-mode .prog-compact-label{ display:block; }
+  body.practice-mode .prog-list-compact{
+    flex:1 1 auto;
+    min-height:0;
+    max-height:24vh; /* belt-and-suspenders: caps growth even where the flex parent's
+                         own height is content-driven (see the narrow breakpoint below) */
+    overflow-y:auto;
+  }
+  body.practice-mode .panel{
+    min-height:0;
+    min-width:0;
+    overflow:auto;
+    padding:0.9rem 1.05rem 1rem;
+  }
+  body.practice-mode .panel-head{ margin-bottom:0.35rem; padding-bottom:0.35rem; }
+  body.practice-mode .panel-head h2{ font-size:1.15rem; }
+  body.practice-mode .section-head{ margin-bottom:0.3rem; justify-content:flex-end; }
+  body.practice-mode .section-label{ margin-bottom:0.3rem; }
+  body.practice-mode .genre-mode-row{ gap:0.2rem; }
+  body.practice-mode .genre-mode-btn{ font-size:0.54rem; padding:0.2rem 0.45rem; }
+  body.practice-mode .genre-mode-caption{ font-size:0.6rem; margin:0 0 0.5rem; }
+  body.practice-mode .idea-add-btn{ width:13px; height:13px; font-size:0.42rem; top:2px; left:2px; }
+  body.practice-mode .chord-diagrams{
+    grid-template-columns:repeat(auto-fit, minmax(64px, 1fr));
+    gap:0.4rem;
+    margin-bottom:0.55rem;
+  }
+  body.practice-mode .chord-diagram-cell{ padding:0.3rem 0.3rem 0.25rem; }
+  body.practice-mode .chord-diagram-label .cn{ font-size:0.7rem; }
+  body.practice-mode .chord-diagram-label .rn{ font-size:0.56rem; margin-bottom:0.1rem; }
+  body.practice-mode .shape-toggle-btn{ width:13px; height:13px; font-size:0.46rem; top:2px; right:2px; }
+  /* Same chips, shrunk to match everything else in this compact layout. The vibe
+     caption is capped at 3 lines with an ellipsis rather than hidden outright --
+     the reference panel already scrolls internally in practice mode (see
+     body.practice-mode .panel above), so a longer caption just adds a little
+     scroll instead of breaking the single-screen wheel+diagrams layout. */
+  body.practice-mode .emb-chip-row{ gap:0.12rem; margin-top:0.2rem; }
+  body.practice-mode .emb-chip{ font-size:0.46rem; padding:0.05rem 0.28rem; }
+  body.practice-mode .emb-vibe-caption{
+    font-size:0.52rem;
+    line-height:1.25;
+    margin-top:0.15rem;
+    display:-webkit-box;
+    -webkit-line-clamp:3;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
+  /* The full scale/mode description ("bright, singable -- folk...") is too long to
+     keep the name + position control on one line here, so it's dropped in favor of
+     the short "feel" phrase below -- which exists for modes only, so the plain
+     pentatonic/blues scale blocks still show nothing extra, same as before. */
+  body.practice-mode .scale-desc{ display:none; }
+  body.practice-mode .scale-feel{ display:inline; }
+  body.practice-mode #scaleBlocks{
+    display:flex;
+    gap:1.1rem;
+  }
+  body.practice-mode .scale-block{
+    flex:1 1 0;
+    min-width:0;
+    margin-top:0 !important;
+  }
+  body.practice-mode .scale-name{ font-size:0.82rem; margin-bottom:0.4rem; }
+  body.practice-mode .scale-name-row{ margin-bottom:0.3rem; }
+  body.practice-mode .position-ctl{ font-size:0.56rem; }
+  body.practice-mode .pos-btn{ width:15px; height:15px; font-size:0.65rem; }
+  body.practice-mode .pos-label{ min-width:5.2em; }
+  body.practice-mode .scale-diagram{
+    max-width:none;
+    display:flex;
+    justify-content:center;
+  }
+  body.practice-mode .scale-diagram .fret-diagram-svg{
+    width:auto;
+    height:auto;
+    max-height:36vh;
+    max-width:100%;
+  }
+  body.practice-mode .modes-details{
+    margin:0.3rem 0 0;
+    flex-shrink:0;
+  }
+  body.practice-mode .modes-summary{ font-size:0.62rem; }
+  body.practice-mode .modes-body{ margin-top:0.6rem; }
+  body.practice-mode .idea-capture-details{ margin:0.3rem 0 0; }
+  body.practice-mode .idea-capture-summary{ font-size:0.6rem; }
+  body.practice-mode .idea-capture-hint{ display:none; }
+  body.practice-mode .idea-capture-body{ margin-top:0.5rem; }
+  body.practice-mode .idea-capture-current{ padding:0.35rem 0.5rem; min-height:1.6rem; margin-bottom:0.4rem; }
+  body.practice-mode .idea-token{ font-size:0.62rem; padding:0.1rem 0.4rem; }
+  body.practice-mode .idea-capture-actions{ margin-bottom:0.5rem; }
+  body.practice-mode .idea-btn{ font-size:0.58rem; padding:0.22rem 0.5rem; }
+  body.practice-mode .idea-saved-text{ font-size:0.66rem; }
+  body.practice-mode .idea-export-textarea{ font-size:0.62rem; }
+  body.practice-mode .modes-body .scale-diagram .fret-diagram-svg{ max-height:26vh; }
+
+  /* In practice mode there's only room for one set of fretboard diagrams at a
+     time, so opening Modes swaps in for the main scale pair rather than
+     stacking below it -- toggled via the #modesDetails "toggle" JS listener
+     adding/removing .modes-open on .panel. */
+  body.practice-mode .panel.modes-open #scaleBlocksLabel,
+  body.practice-mode .panel.modes-open #scaleBlocks{
+    display:none;
+  }
+  body.practice-mode .panel.modes-open .modes-body{
+    margin-top:0.7rem;
+  }
+  body.practice-mode .mode-picker{ gap:0.25rem; margin-bottom:0.55rem; }
+  body.practice-mode .mode-pick-btn{ font-size:0.56rem; padding:0.2rem 0.45rem; }
+  body.practice-mode .panel.modes-open .modes-body .scale-block{
+    max-width:420px;
+    margin:0 auto;
+  }
+  body.practice-mode .panel.modes-open .modes-body .scale-name{
+    font-size:0.88rem;
+    text-align:center;
+  }
+  body.practice-mode .panel.modes-open .modes-body .scale-diagram .fret-diagram-svg{
+    max-height:34vh;
+    max-width:100%;
+  }
+
+  @media (max-width: 860px){
+    body.practice-mode main.stage{ grid-template-columns:1fr; grid-template-rows:auto 1fr; }
+    /* Stacked layout: the wheel-panel is now a fixed-size row above the reference
+       panel rather than a full-height column beside it, so it needs its own height
+       cap (with internal scroll as a fallback) -- otherwise the progression list
+       added below the wheel makes this "auto" row grow and steals the panel row's
+       already-tight vertical budget. */
+    body.practice-mode .wheel-panel{ padding:0.5rem; max-height:38vh; overflow-y:auto; gap:0.35rem; }
+    body.practice-mode .wheel-wrap{ max-width:min(100%, 26vh, 260px); }
+    body.practice-mode .prog-list-compact{ max-height:5vh; }
+    body.practice-mode .prog-compact-label{ font-size:0.54rem; margin-bottom:0.2rem; }
+    body.practice-mode .panel{ padding:0.55rem 0.8rem 0.6rem; }
+    body.practice-mode .chord-diagrams{ gap:0.28rem; margin-bottom:0.4rem; }
+    body.practice-mode .chord-diagram-cell{ padding:0.22rem 0.22rem 0.18rem; }
+    body.practice-mode .panel.modes-open .modes-body .scale-diagram .fret-diagram-svg{ max-height:21vh; }
+    body.practice-mode .scale-name{ font-size:0.74rem; margin-bottom:0.22rem; }
+    body.practice-mode .scale-name-row{ margin-bottom:0.2rem; }
+    body.practice-mode .scale-diagram .fret-diagram-svg{ max-height:23.5vh; }
+    body.practice-mode .panel-head{ margin-bottom:0.2rem; padding-bottom:0.2rem; }
+    body.practice-mode .panel-head h2{ font-size:0.98rem; }
+    body.practice-mode .mode-picker{ gap:0.18rem; margin-bottom:0.3rem; }
+    body.practice-mode .modes-body{ margin-top:0.35rem; }
+    body.practice-mode .panel.modes-open .modes-body .scale-name{ font-size:0.76rem; }
+    body.practice-mode #scaleBlocks{ gap:0.6rem; }
+    body.practice-mode .genre-mode-btn{ font-size:0.5rem; padding:0.16rem 0.38rem; }
+    body.practice-mode .genre-mode-caption{ font-size:0.56rem; }
+    body.practice-mode .idea-capture-summary{ font-size:0.56rem; }
+  }

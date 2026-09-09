@@ -11,3 +11,6 @@ next-env.d.ts
 
 # Private brand strategy notes — keep local
 sugartree_claude_context.md
+
+# Local Claude scratch output — not part of the site
+Claude outputs/

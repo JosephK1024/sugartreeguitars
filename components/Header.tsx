@@ -7,6 +7,7 @@ const nav = [
   { href: "/tonewoods", label: "Tonewoods" },
   { href: "/philosophy", label: "Philosophy" },
   { href: "/giving", label: "Giving" },
+  { href: "/circle-of-fifths", label: "Circle of Fifths" },
   { href: "/about", label: "About" },
 ];
 
@@ -26,12 +27,12 @@ export function Header() {
             SugarTree Guitars
           </span>
         </Link>
-        <nav className="flex items-center gap-6 text-sm">
+        <nav className="flex items-center gap-6 text-sm min-w-0 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="text-ink/80 hover:text-bark-600 transition-colors"
+              className="shrink-0 whitespace-nowrap text-ink/80 hover:text-bark-600 transition-colors"
             >
               {item.label}
             </Link>

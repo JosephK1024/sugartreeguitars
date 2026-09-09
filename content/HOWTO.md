@@ -34,9 +34,9 @@ frets_to_body: 14
 year: 2026
 summary: "One-line description shown on the build page hero."
 photos:
-  - /images/filename-front.jpeg
-  - /images/filename-back.jpeg
-  - /images/filename-detail.jpeg
+  - front.jpeg
+  - back.jpeg
+  - detail.jpeg
 ---
 
 Body copy in markdown. Use `##` for section headings.
@@ -47,20 +47,45 @@ Body copy in markdown. Use `##` for section headings.
 
 ### Add photos to a guitar
 
-1. On github.com, navigate to `public/images/`.
-2. **Add file → Upload files** → drag the photos in.
-3. Use clean filenames like `koa-000-front.jpeg`, `koa-000-back.jpeg`.
-4. In the guitar's MDX file, add or extend the `photos:` list:
+Every guitar's photos live in **their own folder, named after the guitar's
+file**. A guitar at `content/builds/koa-000-12fret.mdx` keeps its photos in
+`public/images/koa-000-12fret/`. This is not just for tidiness — it's the
+layout the CMS reads and writes, so photos added either way stay compatible.
+
+**The easy way — use the CMS.** Open `/keystatic`, edit the guitar, and drag
+photos into the Photos field. It creates the folder, files the photos in it,
+and writes the paths for you. Nothing else to do.
+
+**By hand on github.com:**
+
+1. Navigate to `public/images/`.
+2. **Add file → Create new file**. In the filename box type the guitar's
+   slug, then `/`, then a filename — e.g.
+   `koa-000-12fret/front.jpeg`. Typing the `/` creates the folder.
+   (If the folder already exists, just open it and use **Upload files**.)
+3. Use clean filenames: `front.jpeg`, `back.jpeg`, `detail.jpeg`.
+4. In the guitar's MDX file, list them by bare filename:
 
 ```yaml
 photos:
-  - /images/koa-000-front.jpeg
-  - /images/koa-000-back.jpeg
-  - /images/koa-000-detail.jpeg
+  - front.jpeg
+  - back.jpeg
+  - detail.jpeg
 ```
 
-The first photo is the hero on both the list page and the detail page.
-Additional photos appear in a gallery below the specs section.
+A bare filename is looked up in that guitar's own folder, so you never have to
+repeat the slug. The first photo is the hero on both the list page and the
+detail page; the rest appear in a gallery below the specs.
+
+To reuse a shared photo that isn't specific to one guitar — a shop shot, say —
+give the full path instead, and it's used as-is:
+
+```yaml
+photos:
+  - /images/wood-drying.jpeg
+```
+
+Articles work the same way: `public/images/<article-slug>/photo.jpeg`.
 
 ### Add a video to a guitar
 

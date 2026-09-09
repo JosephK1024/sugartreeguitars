@@ -52,9 +52,18 @@ export type Article = ArticleFrontmatter & { content: string };
 
 export type Build = BuildFrontmatter & { content: string };
 
-function resolveImagePath(p: string | undefined): string | undefined {
+/**
+ * Images live in a folder named after the entry: public/images/<slug>/<file>.
+ * That is the layout Keystatic writes and reads, so hand-edited frontmatter
+ * has to match it or the CMS can't resolve the asset.
+ *
+ * A full path (leading slash) is used as-is — for shared site photos that
+ * don't belong to any one entry. A bare filename is treated as living in the
+ * entry's own folder.
+ */
+function resolveImagePath(p: string | undefined, slug: string): string | undefined {
   if (!p) return undefined;
-  return p.startsWith("/") ? p : `/images/${p}`;
+  return p.startsWith("/") ? p : `/images/${slug}/${p}`;
 }
 
 const BUILDS_DIR = path.join(process.cwd(), "content", "builds");
@@ -70,7 +79,7 @@ export function getAllBuilds(): Build[] {
     const raw = fs.readFileSync(path.join(BUILDS_DIR, file), "utf-8");
     const { data, content } = matter(raw);
     const fm = data as Omit<BuildFrontmatter, "slug">;
-    if (fm.photos) fm.photos = fm.photos.map((p) => resolveImagePath(p)!);
+    if (fm.photos) fm.photos = fm.photos.map((p) => resolveImagePath(p, slug)!);
     return { slug, content, ...fm } as Build;
   });
 
@@ -104,7 +113,7 @@ export function getAllArticles(): Article[] {
     const raw = fs.readFileSync(path.join(ARTICLES_DIR, file), "utf-8");
     const { data, content } = matter(raw);
     const fm = data as Omit<ArticleFrontmatter, "slug">;
-    if (fm.photo) fm.photo = resolveImagePath(fm.photo);
+    if (fm.photo) fm.photo = resolveImagePath(fm.photo, slug);
     return { slug, content, ...fm } as Article;
   });
 

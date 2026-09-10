@@ -7,7 +7,6 @@ const nav = [
   { href: "/tonewoods", label: "Tonewoods" },
   { href: "/philosophy", label: "Philosophy" },
   { href: "/giving", label: "Giving" },
-  { href: "/circle-of-fifths", label: "Circle of Fifths" },
   { href: "/about", label: "About" },
 ];
 
@@ -37,6 +36,14 @@ export function Header() {
               {item.label}
             </Link>
           ))}
+          {/* Static page served by rewrite, outside the app router — plain
+              anchor so it does a real navigation rather than an RSC fetch. */}
+          <a
+            href="/circle-of-fifths"
+            className="shrink-0 whitespace-nowrap text-ink/80 hover:text-bark-600 transition-colors"
+          >
+            Circle of Fifths
+          </a>
         </nav>
       </div>
     </header>

@@ -3,15 +3,112 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Fifths for Guitar</title>
-<meta name="description" content="An interactive circle of fifths for guitarists: find your chord family, borrow neighboring chords, and pick a capo position, all from one wheel.">
-<meta name="robots" content="noindex">
+<title>The Circle of Fifths for Guitar · SugarTree Guitars</title>
+<meta name="description" content="A free interactive circle of fifths for guitarists: chord families, capo positions, chord and scale diagrams in nine tunings, all seven modes, and a practice mode. No sign-up.">
+<link rel="canonical" href="https://www.sugartreeguitars.com/circle-of-fifths">
+<link rel="icon" href="/brand/sugartree-mark.svg">
+<meta property="og:title" content="The Circle of Fifths for Guitar — free interactive tool">
+<meta property="og:description" content="Chord families, capo positions, chord and scale diagrams in nine tunings, all seven modes. Free from SugarTree Guitars.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.sugartreeguitars.com/circle-of-fifths">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500;1,9..144,600&family=Karla:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="/tools/circle-of-fifths/styles.css">
+
+<style>
+  /* ---------- SugarTree site chrome ----------
+     Added around the tool so this page reads as part of sugartreeguitars.com.
+     Everything here is marked .practice-hide, so practice mode still gets the
+     whole screen. Colours come from the tool's own CSS variables so the chrome
+     follows its light/dark palette instead of fighting it.
+     NOTE: this nav is a hand-maintained copy of components/Header.tsx — if you
+     add a page to the site nav, add it here too. ---------- */
+  .site-bar{
+    position:sticky; top:0; z-index:90;
+    display:flex; align-items:center; justify-content:space-between; gap:1.2rem;
+    padding:0 1rem; height:52px;
+    background:var(--surface); border-bottom:1px solid var(--line);
+  }
+  .site-brand{
+    display:flex; align-items:center; gap:0.55rem;
+    color:var(--ink); text-decoration:none; flex:0 0 auto;
+    font-family:"Fraunces",Georgia,serif; font-size:1rem; letter-spacing:0.01em;
+  }
+  .site-brand img{ width:26px; height:26px; }
+  .site-nav{
+    display:flex; align-items:center; gap:1.1rem;
+    font-family:"Karla",system-ui,sans-serif; font-size:0.82rem;
+    overflow-x:auto; scrollbar-width:none; min-width:0;
+  }
+  .site-nav::-webkit-scrollbar{ display:none; }
+  .site-nav a{
+    color:var(--ink-soft); text-decoration:none; white-space:nowrap; flex:0 0 auto;
+  }
+  .site-nav a:hover{ color:var(--accent); }
+  .site-nav a[aria-current="page"]{ color:var(--accent); font-weight:600; }
+  @media (max-width:640px){ .site-brand span{ display:none; } }
+
+  /* the tool's floating controls tuck under the sticky bar */
+  body:not(.practice-mode) .top-controls{ top:calc(52px + 0.6rem); }
+
+  .site-extra{
+    max-width:60rem; margin:0 auto; padding:3.5rem 1.15rem 0;
+  }
+  .site-extra h2{
+    font-family:"Fraunces",Georgia,serif; font-size:1.6rem; color:var(--ink);
+    text-align:center; margin:0 0 2rem;
+  }
+  .site-extra-grid{
+    display:grid; gap:1.6rem 2.4rem; grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));
+  }
+  .site-extra-grid h3{
+    font-family:"Fraunces",Georgia,serif; font-size:1.05rem; color:var(--ink); margin:0 0 0.35rem;
+  }
+  .site-extra-grid p{ margin:0; color:var(--ink-soft); font-size:0.92rem; line-height:1.55; }
+
+  .site-foot{
+    margin-top:3.5rem; padding:3rem 1.15rem 3.5rem;
+    border-top:1px solid var(--line); background:var(--surface);
+    text-align:center; font-size:0.95rem; color:var(--ink-soft);
+  }
+  .site-foot h2{
+    font-family:"Fraunces",Georgia,serif; font-size:1.5rem; color:var(--ink); margin:0 0 0.9rem;
+  }
+  .site-foot p{ max-width:38rem; margin:0 auto; line-height:1.6; }
+  .site-foot .motto{ margin-top:1rem; font-style:italic; color:var(--ink-faint); }
+  .site-foot-links{
+    margin-top:1.8rem; display:flex; flex-wrap:wrap; gap:0.8rem; justify-content:center;
+  }
+  .site-foot-links a{
+    display:inline-flex; align-items:center; padding:0.6rem 1.3rem;
+    border:1px solid var(--line-strong); border-radius:3px;
+    color:var(--ink); text-decoration:none; font-size:0.88rem;
+  }
+  .site-foot-links a.primary{
+    background:var(--accent); border-color:var(--accent); color:var(--accent-ink); font-weight:600;
+  }
+  .site-foot-links a:hover{ border-color:var(--accent); }
+</style>
+
 </head>
 <body>
+
+<header class="site-bar practice-hide">
+  <a class="site-brand" href="/">
+    <img src="/brand/sugartree-mark.svg" alt="">
+    <span>SugarTree Guitars</span>
+  </a>
+  <nav class="site-nav">
+    <a href="/builds">Builds</a>
+    <a href="/articles">Notes</a>
+    <a href="/tonewoods">Tonewoods</a>
+    <a href="/philosophy">Philosophy</a>
+    <a href="/giving">Giving</a>
+    <a href="/circle-of-fifths" aria-current="page">Circle of Fifths</a>
+    <a href="/about">About</a>
+  </nav>
+</header>
 
 <div class="wrap">
 
@@ -180,6 +277,55 @@
 </div>
 
 
-<script src="script.js"></script>
+<section class="site-extra practice-hide">
+  <h2>What&rsquo;s in it</h2>
+  <div class="site-extra-grid">
+    <div>
+      <h3>Nine tunings</h3>
+      <p>Standard, Double Drop D, Modal E, Modal D, DADGAD, Open G, Open Gsus4, Open C6, and the Crosby tuning. Every chord and scale diagram redraws for the tuning you pick.</p>
+    </div>
+    <div>
+      <h3>Chord shapes you can trust</h3>
+      <p>Each voicing is brute-force checked to sound only real chord tones with the root in the bass — never a hand-guessed shape. Flip any chord between its E-shape and A-shape.</p>
+    </div>
+    <div>
+      <h3>All seven modes</h3>
+      <p>Ionian through Locrian, built on your key's own tonic and spelled from its own letter, each with a fretboard diagram, note names, and a note on the mood it carries.</p>
+    </div>
+    <div>
+      <h3>Four genre sounds</h3>
+      <p>Plain/Folk, Jazz, Blues, and Punk reshape the whole chord family at once — and the progressions list follows along, so a 12-bar blues reads G7–C7–D7 instead of G–C–D.</p>
+    </div>
+    <div>
+      <h3>Embellishment chips</h3>
+      <p>Swap any chord for add9, maj7, sus2, sus4, m7, m9, dom7, or a power chord, with a caption on the feel it brings. Which chips appear depends on the chord's real role in the key.</p>
+    </div>
+    <div>
+      <h3>Capo positions</h3>
+      <p>For any key, the lowest capo fret that lets you play fully open C, D, E, G, A, Am, Dm, or Em shapes — so you can stay in the shapes your hands already know.</p>
+    </div>
+    <div>
+      <h3>Positions up the neck</h3>
+      <p>Walk any scale or mode through every position it naturally falls into, root-anchored, from the nut to the top of the neck. Your choices are remembered as you change keys.</p>
+    </div>
+    <div>
+      <h3>A place for song ideas</h3>
+      <p>Catch chord and note snippets in a scratchpad while you noodle, then export the lot when something starts to turn into a song.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="site-foot practice-hide">
+  <h2>Built by someone who builds guitars</h2>
+  <p>SugarTree makes eight handcrafted acoustic guitars a year in Amelia, Ohio, and gives four extraordinary instruments away to musicians who deserve them. This tool is free because the playing matters more than the selling.</p>
+  <p class="motto">Nothing Extra. Nothing Missing.</p>
+  <div class="site-foot-links">
+    <a class="primary" href="/builds">See the guitars</a>
+    <a href="/giving">The giving program</a>
+    <a href="/articles">Notes from the bench</a>
+  </div>
+</footer>
+
+<script src="/tools/circle-of-fifths/script.js"></script>
 </body>
 </html>

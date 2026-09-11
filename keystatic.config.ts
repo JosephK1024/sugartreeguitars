@@ -81,7 +81,8 @@ export default config({
         ),
         video_url: fields.url({
           label: "Video URL",
-          description: "YouTube or Vimeo link — shown as embedded player.",
+          description:
+            "YouTube or Vimeo link, or a direct link to an .mp4 (S3, CloudFront) — shown as a player.",
           validation: { isRequired: false },
         }),
         hero_caption: fields.text({

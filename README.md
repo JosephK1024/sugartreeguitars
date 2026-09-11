@@ -48,6 +48,7 @@ and status badge:
 - `status`: `in-progress` | `available` | `sold` | `experimental` | `given`
 - `price` (number) + `currency` (default USD) — only used when `status: available`
 - `top`, `back_sides`, `neck`, `fretboard`, `bridge`, `bracing`, `scale`, `frets_to_body`, `nut_width`, `string_set`, `glue`, `construction`, `year`, `serial`, `summary`
+- `video_url`: YouTube/Vimeo link, or a direct `.mp4`/`.webm`/`.mov` URL (S3, CloudFront) played inline
 
 To list a guitar for sale, set `status: available` and add `price`. The build
 page will show a Stripe Checkout button.

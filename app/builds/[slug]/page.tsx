@@ -5,7 +5,7 @@ import { Photo } from "@/components/Photo";
 import { StatusBadge } from "@/components/StatusBadge";
 import { SpecsTable } from "@/components/SpecsTable";
 import { BuyButton } from "@/components/BuyButton";
-import { VideoEmbed } from "@/components/VideoEmbed";
+import { VideoEmbed, canEmbedVideo } from "@/components/VideoEmbed";
 import { getAllBuilds, getBuild, formatPrice } from "@/lib/content";
 
 export function generateStaticParams() {
@@ -113,10 +113,10 @@ export default async function BuildPage({ params }: { params: Promise<{ slug: st
       )}
 
       {/* Video */}
-      {build.video_url && (
+      {canEmbedVideo(build.video_url) && (
         <section className="mt-16">
           <h2 className="font-serif text-2xl text-bark-600 mb-4">Hear it played</h2>
-          <VideoEmbed url={build.video_url} />
+          <VideoEmbed url={build.video_url!} poster={heroPhoto} />
         </section>
       )}
     </article>

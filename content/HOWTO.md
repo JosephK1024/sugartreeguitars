@@ -67,8 +67,29 @@ you ever add photos by hand, match it — see [By hand](#by-hand) below.
 
 ### Add a video
 
-Paste a YouTube or Vimeo link into **Video URL**. A "Hear it played" section
-with an embedded player appears at the bottom of the guitar's page.
+Paste a link into **Video URL** and a "Hear it played" section appears at the
+bottom of the guitar's page. Two kinds of link work:
+
+- **YouTube or Vimeo** — the usual share link (`youtu.be/...`,
+  `youtube.com/watch?v=...`, `vimeo.com/...`). Plays in their embedded player.
+- **A video file you host yourself** — an S3 or CloudFront link ending in
+  `.mp4`, `.webm`, `.mov`, or `.m4v`. Plays in the browser's own player, with
+  the guitar's hero photo showing before you press play.
+
+Anything else is ignored and the section simply doesn't appear.
+
+**If you use S3**, three things matter:
+
+1. The object must be **publicly readable**, or the player gets a 403.
+2. Its **Content-Type must be `video/mp4`** (S3 sometimes defaults to
+   `application/octet-stream`, which makes the browser download the file
+   instead of playing it). Set it on upload, or fix it in the object's
+   metadata afterwards.
+3. Prefer **.mp4 (H.264)**. A `.mov` plays in Safari but often not in Chrome
+   or Firefox.
+
+Presigned URLs work, but they expire — the video goes dead when the signature
+does. Use a plain public object URL for anything meant to stay up.
 
 ### Put a guitar up for sale
 

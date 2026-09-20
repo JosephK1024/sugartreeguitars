@@ -1,4 +1,5 @@
 import { Photo } from "@/components/Photo";
+import { ToneMatcher } from "@/components/ToneMatcher";
 
 export const metadata = {
   title: "Tonewoods",
@@ -21,6 +22,16 @@ const topWoods = [
     name: "Bear claw Sitka",
     role: "Top wood — figured",
     note: "Stiffness varies with the figure. Tap tuning every stage matters more here than on plain-grain stock.",
+  },
+  {
+    name: "Alaskan yellow cedar",
+    role: "Top wood option",
+    note: "Pale, tight-grained, and stiff for its weight. Slower to “open up” than spruce, but rewards patience with a focused, almost bell-like clarity once played in — spruce-like headroom with a touch more sweetness.",
+  },
+  {
+    name: "Port Orford cedar",
+    role: "Top wood option — limited supply",
+    note: "Rare and aromatic, with a stiffness-to-weight ratio that rivals Adirondack. Warmer and more immediately responsive than spruce, without the long break-in period cedar tops are known for. Used selectively.",
   },
   {
     name: "Redwood",
@@ -48,6 +59,14 @@ const backSidesWoods = [
     note: "Warm, complex, the closest legal alternative to Brazilian. Five-year reference dreadnought built with this wood and a Sitka top remains stable, loud, clear.",
   },
   {
+    name: "Indian rosewood",
+    note: "The industry-standard rosewood since the 1969 export restrictions on Brazilian, and for good reason — dark, dense, and richly overtone-laden, with a low end that stays clear under heavy playing. Fully legal to source and trade with the right paperwork, and the wood behind most guitars people describe as “rosewood-voiced.”",
+  },
+  {
+    name: "Brazilian rosewood",
+    note: "The historic benchmark for complexity and sustain — a deeper overtone stack than any other rosewood, shimmering across the whole range. Listed under CITES Appendix I since 1992, so every board we use is certified pre-ban or otherwise legally documented stock, paperwork included. Available on request, priced accordingly.",
+  },
+  {
     name: "Katalox",
     note: "Balanced, punchy, underrated. Worth specifying when a builder wants rosewood-adjacent character without sourcing concerns.",
   },
@@ -60,25 +79,52 @@ const backSidesWoods = [
     note: "Honest, midrange-forward, harmonically generous. The reference back-and-sides wood for measuring everything else against.",
   },
   {
-    name: "Walnut",
-    note: "Available. Warm and balanced when well-quartered.",
+    name: "Maple",
+    note: "Bright, articulate, and honest — it doesn't add color so much as get out of the way, which is exactly what some players want. Hard maple (including birdseye) leans clean and percussive; bigleaf maple splits the difference with a bit more warmth and figure. A strong choice for a guitar meant to sit in a mix, or for a player who wants every note to arrive exactly as picked.",
+  },
+  {
+    name: "Black walnut",
+    note: "Warm and balanced when well-quartered, sitting tonally between mahogany and rosewood — less overtone complexity than rosewood, more low-end weight than mahogany. Handsome, understated grain that doesn't need figure to look finished.",
   },
   {
     name: "Cherry",
-    note: "Available. Light, bright, ages handsomely with UV exposure.",
+    note: "Light, bright, and ages beautifully with UV exposure, deepening from pale pink-brown toward amber over its first years in the sun. The set currently in inventory came from a supplier labeling it “Cherry Dream” — best read as a trade name for a nicely figured cherry rather than a distinct species.",
   },
 ];
 
-const honestAssessments = [
+const neckWoods = [
   {
-    name: "Maple",
-    verdict: "Limited use",
-    note: "Bright, reflective, sterile for our philosophy. It works in archtop, bluegrass flatpicking, and recording contexts — but it's incompatible with the touch-sensitive fingerpicking voice we're after. Better used for necks, bindings, or sold and traded.",
+    name: "Spanish cedar",
+    role: "Our default neck wood",
+    note: "Light, stable, and easy to carve to a comfortable profile. Paired with a carbon fiber reinforcement tube, it holds its set reliably across seasons — the signature SugarTree neck.",
   },
   {
-    name: "Padauk",
-    verdict: "Avoid",
-    note: "Splintery and unpredictable to work with. The vivid orange-red color fades to a generic brown within months to years. Acoustic properties adequate but not exceptional. Better options exist in inventory.",
+    name: "Mahogany",
+    role: "Available by request",
+    note: "Slightly heavier and stiffer than Spanish cedar, with a long track record in steel-string necks.",
+  },
+  {
+    name: "Maple",
+    role: "Available by request",
+    note: "Denser and stiffer still — favored when a player wants maximum neck rigidity, at some cost in weight.",
+  },
+];
+
+const fingerboardWoods = [
+  {
+    name: "Ebony",
+    role: "Our default",
+    note: "Dense, glassy-smooth under the fingers, and stable across humidity swings. Black or lightly streaked, depending on the board.",
+  },
+  {
+    name: "Rosewood",
+    role: "Available by request",
+    note: "A more open pore structure than ebony, with a touch of natural give under the fingers that some players prefer.",
+  },
+  {
+    name: "Osage orange",
+    role: "Available by request",
+    note: "Bright yellow-green when fresh, mellowing to a warm amber-brown with light exposure. Dense and hard — an unusual but excellent alternative to ebony.",
   },
 ];
 
@@ -159,33 +205,93 @@ export default function TonewoodsPage() {
         </div>
       </section>
 
+      {/* Neck woods */}
+      <section className="mb-20">
+        <h2 className="font-serif text-3xl text-bark-600 mb-4">Neck Woods</h2>
+        <p className="text-ink/75 mb-8">
+          Stability and carvability matter more here than tone &mdash; the neck is
+          along for the ride, not driving the voice.
+        </p>
+        <div className="grid sm:grid-cols-3 gap-6">
+          {neckWoods.map((w) => (
+            <div key={w.name} className="border border-bark-200 rounded-sm p-5 bg-bark-50">
+              <div className="font-serif text-xl text-bark-600">{w.name}</div>
+              <div className="text-xs uppercase tracking-widest text-bark-500 mt-1 mb-2">
+                {w.role}
+              </div>
+              <p className="text-ink/80 leading-relaxed text-sm">{w.note}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Fingerboard & bridge */}
+      <section className="mb-20">
+        <h2 className="font-serif text-3xl text-bark-600 mb-4">Fingerboard &amp; Bridge Woods</h2>
+        <p className="text-ink/75 mb-8">
+          The same three woods serve both roles &mdash; dense, hard, and stable
+          under string tension.
+        </p>
+        <div className="grid sm:grid-cols-3 gap-6">
+          {fingerboardWoods.map((w) => (
+            <div key={w.name} className="border border-bark-200 rounded-sm p-5 bg-bark-50">
+              <div className="font-serif text-xl text-bark-600">{w.name}</div>
+              <div className="text-xs uppercase tracking-widest text-bark-500 mt-1 mb-2">
+                {w.role}
+              </div>
+              <p className="text-ink/80 leading-relaxed text-sm">{w.note}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Tonal pairing principles */}
       <section className="mb-20">
         <h2 className="font-serif text-3xl text-bark-600 mb-4">Tonal Pairing</h2>
         <p className="text-ink/75 mb-8">
           Four interactions you can predict before the first cut.
         </p>
-        <div className="grid sm:grid-cols-2 gap-6">
-          <PairCard
-            top="Stiff top"
-            backSides="stiff back &amp; sides"
-            result="Maximum projection, brightness, and note separation."
-          />
-          <PairCard
-            top="Stiff top"
-            backSides="warm back &amp; sides"
-            result="Focused fundamental, warmer coloration, direct."
-          />
-          <PairCard
-            top="Flexible top"
-            backSides="stiff back &amp; sides"
-            result="Warm and sensitive with good projection."
-          />
-          <PairCard
-            top="Flexible top"
-            backSides="warm back &amp; sides"
-            result="Maximum warmth. Limited headroom."
-          />
+
+        <div className="border border-bark-200 rounded-sm overflow-hidden">
+          <div className="grid grid-cols-2 sm:grid-cols-[9rem_1fr_1fr]">
+            <div className="hidden sm:block bg-bark-100 border-b border-r border-bark-200" />
+            <div className="p-4 bg-bark-100 border-b border-r border-bark-200 font-serif text-base sm:text-lg text-bark-600 text-center hidden sm:flex items-center justify-center">
+              Stiff back &amp; sides
+            </div>
+            <div className="p-4 bg-bark-100 border-b border-bark-200 font-serif text-base sm:text-lg text-bark-600 text-center hidden sm:flex items-center justify-center">
+              Warm back &amp; sides
+            </div>
+
+            <div className="hidden sm:flex items-center justify-center p-4 bg-bark-100 border-r border-bark-200 font-serif text-lg text-bark-600 text-center">
+              Stiff top
+            </div>
+            <div className="border-r border-bark-200">
+              <PairCell
+                label="Stiff top + stiff back & sides"
+                result="Maximum projection, brightness, and note separation."
+              />
+            </div>
+            <PairCell
+              label="Stiff top + warm back & sides"
+              result="Focused fundamental, warmer coloration, direct."
+            />
+
+            <div className="hidden sm:flex items-center justify-center p-4 bg-bark-100 border-r border-t border-bark-200 font-serif text-lg text-bark-600 text-center">
+              Flexible top
+            </div>
+            <div className="border-r border-t border-bark-200">
+              <PairCell
+                label="Flexible top + stiff back & sides"
+                result="Warm and sensitive with good projection."
+              />
+            </div>
+            <div className="border-t border-bark-200">
+              <PairCell
+                label="Flexible top + warm back & sides"
+                result="Maximum warmth. Limited headroom."
+              />
+            </div>
+          </div>
         </div>
 
         <div className="mt-12 space-y-4 text-lg text-ink/85 leading-relaxed">
@@ -206,26 +312,15 @@ export default function TonewoodsPage() {
         </div>
       </section>
 
-      {/* What we don't use */}
+      {/* Build Your Tone tool */}
       <section className="mb-20">
-        <h2 className="font-serif text-3xl text-bark-600 mb-4">What We Don&rsquo;t Use</h2>
+        <h2 className="font-serif text-3xl text-bark-600 mb-4">Build Your Tone</h2>
         <p className="text-ink/75 mb-8">
-          Honest assessments of woods we keep around but won&rsquo;t generally
-          build with. Tradition is a starting point, not an answer.
+          Pick a top, a back &amp; sides wood, a body, and a scale length, and
+          we&rsquo;ll describe the guitar they&rsquo;d make together. Not a
+          substitute for playing one &mdash; a starting point for a conversation.
         </p>
-        <div className="space-y-8">
-          {honestAssessments.map((w) => (
-            <div key={w.name} className="grid md:grid-cols-[1fr_2fr] gap-6 pb-6 border-b border-bark-200 last:border-0">
-              <div>
-                <h3 className="font-serif text-2xl text-bark-600">{w.name}</h3>
-                <div className="text-xs uppercase tracking-widest text-bark-500 mt-1">
-                  {w.verdict}
-                </div>
-              </div>
-              <p className="text-ink/85 leading-relaxed text-lg">{w.note}</p>
-            </div>
-          ))}
-        </div>
+        <ToneMatcher />
       </section>
 
       <p className="font-serif text-xl text-bark-600 italic max-w-prose">
@@ -235,12 +330,13 @@ export default function TonewoodsPage() {
   );
 }
 
-function PairCard({ top, backSides, result }: { top: string; backSides: string; result: string }) {
+function PairCell({ label, result }: { label: string; result: string }) {
   return (
-    <div className="border border-bark-200 rounded-sm p-6 bg-bark-50">
-      <div className="text-sm uppercase tracking-widest text-bark-500 mb-2">{top}</div>
-      <div className="font-serif text-lg text-bark-600 mb-3" dangerouslySetInnerHTML={{ __html: `+ ${backSides}` }} />
-      <p className="text-ink/80 leading-relaxed">{result}</p>
+    <div className="p-5 bg-white h-full flex flex-col gap-2">
+      <div className="text-xs uppercase tracking-widest text-bark-500 sm:hidden">
+        {label}
+      </div>
+      <p className="text-ink/85 leading-relaxed">{result}</p>
     </div>
   );
 }
